@@ -1,22 +1,15 @@
-import React, { StrictMode } from 'react';
+import React from 'react';
 
 import { AppContext, AppContextProvider } from './context/AppContext';
-import Loading from './shared/Loading';
 import WidgetRenderer from './shared/WidgetRenderer';
+import Loading from './shared/Loading';
 
-const App: React.FC = () => {
-  return (
-    <StrictMode>
-      <AppContextProvider>
-        <AppContext.Consumer>
-          {({ initialLoading, selectedWidget }) => {
-            if (initialLoading) return <Loading />;
-            return <WidgetRenderer widget={selectedWidget} />;
-          }}
-        </AppContext.Consumer>
-      </AppContextProvider>
-    </StrictMode>
-  );
-};
+const App: React.FC = () => (
+  <AppContextProvider>
+    <AppContext.Consumer>
+      {({ initialLoading }) => (initialLoading ? <Loading /> : <WidgetRenderer />)}
+    </AppContext.Consumer>
+  </AppContextProvider>
+);
 
 export default App;

@@ -7,6 +7,7 @@ interface Props {
 
 const Loading: React.FC<Props> = ({ text }) => {
   const { Translate } = useAppContext();
+
   return (
     <div className="loading center">
       <div className="loading-content">

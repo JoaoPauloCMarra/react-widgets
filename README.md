@@ -12,7 +12,7 @@ Add more features
 
 `yarn install` to install dependencies
 
-`yarn dev` - starts locla server
+`yarn dev` - starts locla server (http://localhost:3000/?widget=widget1)
 
 `yarn build` - builds the workspace code
 

@@ -6,23 +6,27 @@ import { logError } from '../utils/logger';
 import I18n from '../utils/i18n';
 
 export interface AppState {
-  initialLoading: boolean;
   language: SupportedLanguages;
   languageName: string;
   selectedWidget: string;
+  initialLoading: boolean;
+  loading: boolean;
 
   SetLanguage: (language: SupportedLanguages) => void;
   Translate: (path: string) => string;
+  SetLoading: (loading: boolean) => void;
 }
 
 export const initialState: AppState = {
-  initialLoading: true,
   language: DEFAULT_LANGUAGE,
   languageName: '',
   selectedWidget: '',
+  initialLoading: true,
+  loading: true,
 
   SetLanguage: () => null,
   Translate: () => '',
+  SetLoading: () => {},
 };
 
 export const AppContext = createContext<AppState>(initialState);
@@ -47,18 +51,24 @@ export const AppContextProvider: FC = ({ children }) => {
     return i18n.t(path) || '';
   };
 
+  const SetLoading = (loading: boolean) => {
+    dispatch({ loading });
+  };
+
   useEffect(() => {
     const startup = async () => {
       try {
-        dispatch({ initialLoading: true });
+        dispatch({ loading: true });
 
         if (!location) return;
-        const clientSettings = JSON.parse(
-          '{"' + location.search.substring(1).replace(/&/g, '","').replace(/=/g, '":"') + '"}',
-          (key, value) => {
-            return key === '' ? value : decodeURIComponent(value);
-          },
-        );
+        const locationSearch = location.search.substring(1);
+        let clientSettings: any = {};
+        if (locationSearch) {
+          clientSettings = JSON.parse(
+            '{"' + locationSearch.replace(/&/g, '","').replace(/=/g, '":"') + '"}',
+            (key, value) => (key === '' ? value : decodeURIComponent(value)),
+          );
+        }
 
         if (clientSettings.widget) {
           const storageLanguage = storage.get('language');
@@ -81,7 +91,17 @@ export const AppContextProvider: FC = ({ children }) => {
     startup();
   }, []);
 
-  return <AppContext.Provider value={{ ...state, SetLanguage, Translate }}>{children}</AppContext.Provider>;
+  return (
+    <AppContext.Provider
+      value={{
+        ...state,
+        SetLanguage,
+        Translate,
+        SetLoading,
+      }}>
+      {children}
+    </AppContext.Provider>
+  );
 };
 
 export const useAppContext = (): AppState => {

@@ -1,7 +1,7 @@
 {
   "name": "react-widgets",
   "version": "1.0.0",
-  "main": "dist/index.js",
+  "main": "dist/app.js",
   "private": true,
   "license": "MIT",
   "author": "JoaoPauloCMarra",
@@ -11,10 +11,10 @@
     "format": "prettier --config ./.prettierrc.js --write \"{src,__{tests,mocks}__}/**/*.{ts,tsx,scss}\"",
     "lint": "eslint --ext .tsx,.ts",
     "test": "jest -u --colors",
+    "serve": "yarn build && serve ./dist",
     "prepare": "husky install"
   },
   "dependencies": {
-    "chalk": "^4.1.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2"
   },
@@ -54,6 +54,7 @@
     "react-test-renderer": "^17.0.2",
     "sass": "^1.32.8",
     "sass-loader": "^11.0.1",
+    "serve": "^11.3.2",
     "style-loader": "^2.0.0",
     "ts-jest": "^26.5.4",
     "ts-loader": "^8.1.0",
