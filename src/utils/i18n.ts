@@ -2,13 +2,17 @@ import { DEFAULT_LANGUAGE, SupportedLanguages } from '../Constants';
 
 const locales: { [key: string]: { [key: string]: string } } = {
   en: {
-    loading: 'Loading',
+    LOADING: 'Loading',
+    TITLE: 'Title',
+    SUBTITLE: 'Subtitle',
+    ACTION_1: 'Action 1',
+    ACTION_2: 'Action 2',
   },
   sv: {},
 };
 
 class I18n {
-  language = SupportedLanguages.EN;
+  language = DEFAULT_LANGUAGE;
 
   languages: Language[] = [
     {
@@ -21,11 +25,19 @@ class I18n {
     },
   ];
 
-  constructor(language?: SupportedLanguages) {
-    if (language) {
-      this.language = language;
-    }
+  setLanguage(language: SupportedLanguages | string) {
+    this.language = this.getLanguageCode(language);
+    return this;
   }
+
+  getLanguageCode = (language: SupportedLanguages | string) => {
+    if (typeof language === 'string') {
+      const index = Object.keys(SupportedLanguages).indexOf(language.toUpperCase());
+      return Number(SupportedLanguages[index]) || DEFAULT_LANGUAGE;
+    } else {
+      return language;
+    }
+  };
 
   getLanguageFromCode = (language: SupportedLanguages): string => {
     try {

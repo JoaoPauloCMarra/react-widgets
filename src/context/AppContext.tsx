@@ -1,16 +1,20 @@
-import { createContext, FC, useContext, useEffect, useReducer } from 'react';
+import { createContext, useContext, useEffect, useReducer } from 'react';
 
 import { DEFAULT_LANGUAGE, SupportedLanguages } from '../Constants';
-import LocalStorage from '../utils/storage';
 import { logError } from '../utils/logger';
 import I18n from '../utils/i18n';
+
+interface ProviderProps {
+  params: WidgetParams;
+}
 
 export interface AppState {
   language: SupportedLanguages;
   languageName: string;
-  selectedWidget: string;
   initialLoading: boolean;
   loading: boolean;
+
+  clientSettings: any;
 
   SetLanguage: (language: SupportedLanguages) => void;
   Translate: (path: string) => string;
@@ -20,9 +24,10 @@ export interface AppState {
 export const initialState: AppState = {
   language: DEFAULT_LANGUAGE,
   languageName: '',
-  selectedWidget: '',
   initialLoading: true,
   loading: true,
+
+  clientSettings: {},
 
   SetLanguage: () => null,
   Translate: () => '',
@@ -36,20 +41,17 @@ const reducer = (state: AppState, action: Partial<AppState>): AppState => ({
   ...action,
 });
 
-export const AppContextProvider: FC = ({ children }) => {
+export const AppContextProvider: React.FC<ProviderProps> = ({ children, params }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const storage = new LocalStorage();
+  const i18n = new I18n();
 
-  const SetLanguage = (language: SupportedLanguages) => {
-    const i18n = new I18n();
-    storage.set('language', language);
-    dispatch({ language, languageName: i18n.getLanguageFromCode(language) });
+  const SetLanguage = (value: SupportedLanguages | string) => {
+    const language = i18n.getLanguageCode(value);
+    const languageName = i18n.getLanguageFromCode(language);
+    dispatch({ language, languageName });
   };
 
-  const Translate = (path: string) => {
-    const i18n = new I18n(state.language);
-    return i18n.t(path) || '';
-  };
+  const Translate = (path: string) => i18n.setLanguage(state.language).t(path) || '';
 
   const SetLoading = (loading: boolean) => {
     dispatch({ loading });
@@ -60,32 +62,11 @@ export const AppContextProvider: FC = ({ children }) => {
       try {
         dispatch({ loading: true });
 
-        if (!location) return;
-        const locationSearch = location.search.substring(1);
-        let clientSettings: any = {};
-        if (locationSearch) {
-          clientSettings = JSON.parse(
-            '{"' + locationSearch.replace(/&/g, '","').replace(/=/g, '":"') + '"}',
-            (key, value) => (key === '' ? value : decodeURIComponent(value)),
-          );
-        }
+        SetLanguage(params.language);
 
-        if (clientSettings.widget) {
-          const storageLanguage = storage.get('language');
-
-          if (storageLanguage) {
-            SetLanguage(Number(storageLanguage));
-          } else {
-            SetLanguage(DEFAULT_LANGUAGE);
-          }
-          dispatch({ selectedWidget: clientSettings.widget });
-        } else {
-          logError('Warning!', 'No Widget Specified...');
-        }
+        dispatch({ clientSettings: params, initialLoading: false });
       } catch (error) {
         logError('AppContextStartup error:', error);
-      } finally {
-        dispatch({ initialLoading: false });
       }
     };
     startup();

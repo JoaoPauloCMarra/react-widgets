@@ -1,4 +1,3 @@
-import React from 'react';
 import { cleanup, render } from '@testing-library/react';
 
 import EmptyWidget from '../src/widgets/EmptyWidget';
@@ -6,12 +5,12 @@ import EmptyWidget from '../src/widgets/EmptyWidget';
 afterEach(cleanup);
 
 describe('EmptyWidget', () => {
-  it('title exists', () => {
+  it('text exists', () => {
     const { getByTestId } = render(<EmptyWidget />);
-    expect(getByTestId('title')).toBeTruthy();
+    expect(getByTestId('text')).toBeTruthy();
   });
-  it('title has the righ text', () => {
+  it('text has the righ text', () => {
     const { getByTestId } = render(<EmptyWidget />);
-    expect(getByTestId('title').textContent).toBe('EmptyWidget');
+    expect(getByTestId('text').textContent).toBe('Nothing to show');
   });
 });

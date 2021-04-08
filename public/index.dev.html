@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>React Widgets</title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="theme-color" content="#fff" />
+    <!-- <meta property="og:title" content="" /> -->
+    <!-- <meta property="og:type" content="" /> -->
+    <!-- <meta property="og:url" content="" /> -->
+    <!-- <meta property="og:image" content="" /> -->
+    <!-- <link rel="manifest" href="site.webmanifest" /> -->
+    <!-- <link rel="apple-touch-icon" href="icon.png" /> -->
+    <style>
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Start of the widget -->
+    <div id="react-widgets-root"></div>
+    <script defer>
+      !(function (e, t, d, i) {
+        var n,
+          s,
+          l = t + '-js',
+          o = t + '-css';
+        e.getElementById(l) ||
+          (((n = e.createElement('script')).id = l),
+          (n.onload = () => {
+            var z = new window.ReactWidget(i);
+            z.initiate();
+          }),
+          (n.src = d + '/app.js'),
+          e.body.appendChild(n)),
+          e.getElementById(o) ||
+            (((s = e.createElement('link')).id = o),
+            (s.rel = 'stylesheet'),
+            (s.href = d + '/app.css'),
+            e.head.appendChild(s));
+      })(document, 'react-widgets', 'http://localhost:3000', {
+        widget: 'demo-widget',
+        token: 'demo_token_theme1',
+        language: 'en',
+      });
+    </script>
+    <!-- End of the widget -->
+  </body>
+</html>

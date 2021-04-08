@@ -19,3 +19,11 @@ Add more features
 `yarn test` - tests the workspace code
 
 `yarn lint` - lints the workspace code
+
+
+
+try different themes in the browser console:
+```js
+// demo_token_theme1 | demo_token_theme2 | demo_token_theme3
+new window.ReactWidget({widget: 'demo-widget', language: 'en', token: 'demo_token_theme3'}).reload();
+```

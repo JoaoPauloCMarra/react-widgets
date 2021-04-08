@@ -1,10 +1,9 @@
 import React, { memo } from 'react';
-
-import '../styles/widget-empty.scss';
+import Error from '../shared/Error';
 
 const EmptyWidget: React.FC = () => (
-  <div className="widget-empty center">
-    <h2 data-testid="title">EmptyWidget</h2>
+  <div className="widget-empty">
+    <Error text="Nothing to show" />
   </div>
 );
 

@@ -11,7 +11,7 @@ const Loading: React.FC<Props> = ({ text }) => {
   return (
     <div className="loading center">
       <div className="loading-content">
-        <span>{text || `${Translate('loading')}...`}</span>
+        <span>{text || `${Translate('LOADING')}...`}</span>
       </div>
     </div>
   );

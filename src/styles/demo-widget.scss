@@ -1,0 +1,22 @@
+.react-widgets {
+  .demo-widget {
+    margin: 0 15px;
+    height: 100%;
+    max-width: 380px;
+    text-align: center;
+  }
+
+  .title {
+    color: var(--title-color);
+    margin-bottom: 1rem;
+  }
+  .subtitle {
+    color: var(--subtitle-color);
+    margin-bottom: 2rem;
+  }
+  .actions {
+    button {
+      margin-bottom: 2rem;
+    }
+  }
+}
