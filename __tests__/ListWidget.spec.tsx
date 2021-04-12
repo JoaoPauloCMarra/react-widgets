@@ -1,16 +1,16 @@
 import { cleanup, render } from '@testing-library/react';
 
-import DemoWidget from '../src/widgets/DemoWidget';
+import ListWidget from '../src/widgets/ListWidget';
 
 afterEach(cleanup);
 
-describe('DemoWidget', () => {
-  it('title exists', async () => {
-    const { getByTestId } = render(<DemoWidget />);
+describe('ListWidget Widget', () => {
+  it('title exists', () => {
+    const { getByTestId } = render(<ListWidget />);
     expect(getByTestId('title')).toBeTruthy();
   });
   it('subtitle exists', () => {
-    const { getByTestId } = render(<DemoWidget />);
+    const { getByTestId } = render(<ListWidget />);
     expect(getByTestId('subtitle')).toBeTruthy();
   });
 });

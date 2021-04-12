@@ -1,20 +1,16 @@
 import React, { memo } from 'react';
-import { useAppContext } from '../context/AppContext';
 
-interface Props {
-  text?: string;
-}
-
-const Loading: React.FC<Props> = ({ text }) => {
-  const { Translate } = useAppContext();
-
-  return (
-    <div className="loading center">
-      <div className="loading-content">
-        <span>{text || `${Translate('LOADING')}...`}</span>
+const Loading: React.FC = () => (
+  <div className="loading-wrapper center">
+    <div className="loading-content">
+      <div className="loading-ellipsis">
+        <div />
+        <div />
+        <div />
+        <div />
       </div>
     </div>
-  );
-};
+  </div>
+);
 
 export default memo(Loading);

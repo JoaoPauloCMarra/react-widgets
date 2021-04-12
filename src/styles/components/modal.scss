@@ -1,0 +1,70 @@
+.react-widgets .modal-wrapper {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  z-index: 999;
+
+  &.fade-hidden {
+    pointer-events: none;
+    display: none;
+  }
+  &.fade-transp {
+    opacity: 0;
+  }
+  &.modal-overlay {
+    background: rgba(0, 0, 0, 0.3);
+  }
+  .modal {
+    box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+    background-clip: padding-box;
+    background: var(--modal-bg-color);
+    color: var(--modal-text-color);
+    min-height: 12.5em;
+    min-width: 12.5em;
+    max-width: 25em;
+    overflow: hidden;
+    margin: 0.5em;
+    padding: 0.5em;
+  }
+  .header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1em;
+    padding: 0.5em 1em;
+  }
+  .modal-close {
+    background: transparent;
+    border: none;
+    flex: 0;
+    margin: 0;
+    padding: 0;
+
+    svg {
+      fill: var(--modal-title-color);
+      height: 1.4em;
+      width: 1.4em;
+    }
+  }
+  .modal-title {
+    flex: 1;
+    color: var(--modal-title-color);
+    font-size: 1.2em;
+    text-align: left;
+  }
+  .modal-content {
+    color: var(--modal-text-color);
+    font-size: 1em;
+    margin-bottom: 0.5em;
+    padding: 0.5em 1em;
+    text-align: left;
+  }
+  .modal-actions {
+    margin-bottom: 0.5em;
+    padding: 0.5em 1em;
+  }
+}

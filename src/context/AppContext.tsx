@@ -1,94 +1,51 @@
 import { createContext, useContext, useEffect, useReducer } from 'react';
 
-import { DEFAULT_LANGUAGE, SupportedLanguages } from '../Constants';
-import { logError } from '../utils/logger';
-import I18n from '../utils/i18n';
+import { useDataContext } from './DataContext';
+import Loading from '../shared/Loading';
 
-interface ProviderProps {
-  params: WidgetParams;
-}
-
-export interface AppState {
-  language: SupportedLanguages;
-  languageName: string;
-  initialLoading: boolean;
+interface AppState {
   loading: boolean;
-
-  clientSettings: any;
-
-  SetLanguage: (language: SupportedLanguages) => void;
-  Translate: (path: string) => string;
-  SetLoading: (loading: boolean) => void;
 }
 
-export const initialState: AppState = {
-  language: DEFAULT_LANGUAGE,
-  languageName: '',
-  initialLoading: true,
+const initialState: AppState = {
   loading: true,
-
-  clientSettings: {},
-
-  SetLanguage: () => null,
-  Translate: () => '',
-  SetLoading: () => {},
 };
 
-export const AppContext = createContext<AppState>(initialState);
+const Context = createContext<AppState>(initialState);
 
 const reducer = (state: AppState, action: Partial<AppState>): AppState => ({
   ...state,
   ...action,
 });
 
-export const AppContextProvider: React.FC<ProviderProps> = ({ children, params }) => {
+const AppProvider: React.FC = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const i18n = new I18n();
-
-  const SetLanguage = (value: SupportedLanguages | string) => {
-    const language = i18n.getLanguageCode(value);
-    const languageName = i18n.getLanguageFromCode(language);
-    dispatch({ language, languageName });
-  };
-
-  const Translate = (path: string) => i18n.setLanguage(state.language).t(path) || '';
-
-  const SetLoading = (loading: boolean) => {
-    dispatch({ loading });
-  };
+  const { loading: dataLoading, settings } = useDataContext();
+  const { widgetElId, theme } = settings || {};
+  const { loading } = state;
 
   useEffect(() => {
     const startup = async () => {
-      try {
-        dispatch({ loading: true });
-
-        SetLanguage(params.language);
-
-        dispatch({ clientSettings: params, initialLoading: false });
-      } catch (error) {
-        logError('AppContextStartup error:', error);
+      const rootEl = document.getElementById(String(widgetElId));
+      if (rootEl && theme) {
+        rootEl.className += ' ' + theme;
       }
+      dispatch({ loading: false });
     };
-    startup();
-  }, []);
+    if (!dataLoading && widgetElId && theme) {
+      startup();
+    }
+  }, [dataLoading, widgetElId, theme]);
 
-  return (
-    <AppContext.Provider
-      value={{
-        ...state,
-        SetLanguage,
-        Translate,
-        SetLoading,
-      }}>
-      {children}
-    </AppContext.Provider>
-  );
+  return <Context.Provider value={state}>{loading ? <Loading /> : children}</Context.Provider>;
 };
 
-export const useAppContext = (): AppState => {
-  const context = useContext(AppContext);
+const useAppContext = (): AppState => {
+  const context = useContext(Context);
   if (!context) {
     throw new Error('AppContext not found');
   }
   return context;
 };
+
+export { AppProvider, useAppContext };

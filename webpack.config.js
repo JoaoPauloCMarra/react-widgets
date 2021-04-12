@@ -7,21 +7,33 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const InlineSourceWebpackPlugin = require('inline-source-webpack-plugin');
 const FileManagerPlugin = require('filemanager-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const typescriptFormatter = require('react-dev-utils/typescriptFormatter');
+const RemoveSourceMapUrlWebpackPlugin = require('@rbarilani/remove-source-map-url-webpack-plugin');
 
-const deployToAnotherProject = false;
+const deployToAnotherProject = true;
 let fileManagerSettings = {
   onStart: {},
   onEnd: {},
 };
 
 module.exports = (env) => {
-  const bundleJsName = `app.${new Date().getTime()}.js`;
   const devMode = env.NODE_ENV !== 'production';
 
   let plugins = [
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
     new MiniCssExtractPlugin(),
+    new ForkTsCheckerWebpackPlugin({
+      async: devMode,
+      typescript: {
+        diagnosticOptions: { syntactic: true, semantic: true, declaration: false, global: false },
+      },
+      eslint: {
+        files: './src/**/*.{ts,tsx}',
+      },
+      formatter: !devMode ? typescriptFormatter : undefined,
+    }),
   ];
   if (devMode) {
     plugins = [
@@ -35,12 +47,10 @@ module.exports = (env) => {
     ];
   } else {
     if (deployToAnotherProject) {
-      const buildTarget = path.resolve(__dirname, '..', 'server', 'src', 'views', 'widgets');
-      fileManagerSettings.onEnd.copy = [
-        { source: './dist/index.html', destination: buildTarget + '/index.html' },
-        { source: './dist/app.css', destination: buildTarget + '/app.css' },
-        { source: './dist/app.js' + bundleJsName, destination: buildTarget + '/app.js' },
-      ];
+      const options = {
+        force: true,
+      };
+      fileManagerSettings.onEnd.copy = [{ source: './public/loader.js', destination: './dist/loader.js', options }];
     }
     plugins = [
       ...plugins,
@@ -50,12 +60,16 @@ module.exports = (env) => {
         template: path.join(__dirname, 'public', 'index.prod.html'),
         filename: 'index.html',
         minify: {
-          collapseWhitespace: true,
           removeComments: true,
+          collapseWhitespace: true,
           removeRedundantAttributes: true,
-          removeScriptTypeAttributes: true,
-          removeStyleLinkTypeAttributes: true,
           useShortDoctype: true,
+          removeEmptyAttributes: true,
+          removeStyleLinkTypeAttributes: true,
+          keepClosingSlash: true,
+          minifyJS: true,
+          minifyCSS: true,
+          minifyURLs: true,
         },
       }),
       new InlineSourceWebpackPlugin({
@@ -63,8 +77,44 @@ module.exports = (env) => {
         rootpath: './dist',
         noAssetMatch: 'warn',
       }),
+      new RemoveSourceMapUrlWebpackPlugin(),
       new FileManagerPlugin({
         events: fileManagerSettings,
+      }),
+    ];
+  }
+
+  let minimizer = [];
+  if (!devMode) {
+    minimizer = [
+      new TerserPlugin({
+        extractComments: {
+          condition: /^\**!|@preserve|@license|@cc_on/,
+          filename() {
+            return 'LICENSE';
+          },
+          banner: () => `Build date: ${new Date().toUTCString()}, @license MIT`,
+        },
+        parallel: true,
+        terserOptions: {
+          parse: {
+            ecma: 8,
+          },
+          compress: {
+            ecma: 5,
+            warnings: false,
+            comparisons: false,
+            inline: 2,
+          },
+          mangle: {
+            safari10: true,
+          },
+          output: {
+            ecma: 5,
+            comments: false,
+            ascii_only: true,
+          },
+        },
       }),
     ];
   }
@@ -81,7 +131,8 @@ module.exports = (env) => {
       extensions: ['.ts', '.tsx', '.js'],
     },
     output: {
-      filename: devMode ? 'app.js' : bundleJsName,
+      // filename: devMode ? 'app.js' : bundleJsName,
+      filename: '[name].js',
       path: path.resolve(__dirname, 'dist'),
       clean: true,
       publicPath: '',
@@ -103,11 +154,15 @@ module.exports = (env) => {
         },
         {
           test: /\.(ts|tsx)$/,
+          loader: 'ts-loader',
           exclude: /node_modules/,
-          use: ['ts-loader'],
+          options: {
+            transpileOnly: true,
+          },
         },
         {
           test: /\.(css|scss)$/,
+          exclude: /node_modules/,
           use: [
             MiniCssExtractPlugin.loader,
             { loader: 'css-loader', options: { url: false, sourceMap: false } },
@@ -117,19 +172,24 @@ module.exports = (env) => {
         },
         {
           test: /\.(jpg|jpeg|png|gif|woff(2)|ttf|eot|svg)$/,
+          exclude: /node_modules/,
           use: ['file-loader'],
         },
       ],
     },
     optimization: {
       minimize: true,
-      minimizer: [
-        new TerserPlugin({
-          extractComments: false,
-        }),
-      ],
+      minimizer,
+      splitChunks: {
+        cacheGroups: {
+          vendor: {
+            test: /[\\/]node_modules[\\/](react|react-dom|scheduler|object-assign)[\\/]/,
+            name: 'vendor',
+            chunks: 'all',
+          },
+        },
+      },
     },
-    cache: true,
     plugins,
   };
 };

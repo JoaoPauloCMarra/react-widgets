@@ -2,11 +2,12 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>React Widgets</title>
+    <title>React Widgets Dev Demo</title>
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="theme-color" content="#fff" />
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=" />
     <!-- <meta property="og:title" content="" /> -->
     <!-- <meta property="og:type" content="" /> -->
     <!-- <meta property="og:url" content="" /> -->
@@ -16,39 +17,100 @@
     <style>
       html,
       body {
+        background: #000;
         height: 100%;
         margin: 0;
         padding: 0;
       }
+      .card {
+        margin: 20px auto;
+      }
+      .card.phone {
+        height: 568px;
+        width: 320px;
+      }
+      .card.banner {
+        height: 200px;
+        width: 320px;
+      }
+      h1 {
+        color: white;
+        font-family: sans-serif;
+        font-size: 16px;
+        font-weight: bolder;
+        margin-bottom: 5px;
+        text-transform: uppercase;
+      }
     </style>
   </head>
   <body>
+    <div class="card phone">
+      <h1>List</h1>
+      <div id="widget-list"></div>
+    </div>
+    <br /><br />
+    <hr />
+    <br /><br />
+    <div class="card banner">
+      <h1>Form</h1>
+      <div id="widget-form"></div>
+    </div>
+    <br /><br />
+    <hr />
+    <br /><br />
+
     <!-- Start of the widget -->
-    <div id="react-widgets-root"></div>
+    <script type="text/javascript">
+      const token = 'demotoken123';
+      const language = 'en';
+      const reactWidgetParams = [
+        {
+          id: 'widget-list',
+          widget: 'list',
+          token: token,
+          language,
+        },
+        {
+          id: 'widget-form',
+          widget: 'form',
+          token: token,
+          language,
+        },
+      ];
+    </script>
     <script defer>
-      !(function (e, t, d, i) {
-        var n,
-          s,
-          l = t + '-js',
-          o = t + '-css';
-        e.getElementById(l) ||
-          (((n = e.createElement('script')).id = l),
-          (n.onload = () => {
-            var z = new window.ReactWidget(i);
-            z.initiate();
-          }),
-          (n.src = d + '/app.js'),
-          e.body.appendChild(n)),
-          e.getElementById(o) ||
-            (((s = e.createElement('link')).id = o),
-            (s.rel = 'stylesheet'),
-            (s.href = d + '/app.css'),
-            e.head.appendChild(s));
-      })(document, 'react-widgets', 'http://localhost:3000', {
-        widget: 'demo-widget',
-        token: 'demo_token_theme1',
-        language: 'en',
-      });
+      !(function (win, doc, id, url) {
+        const onVendorLoad = () => {
+          if (!doc.getElementById(id + '-js')) {
+            var script = doc.createElement('script');
+            script.id = id + '-js';
+            script.type = 'text/javascript';
+            script.onload = () => {
+              win.ReactWidget.initiate(reactWidgetParams);
+            };
+            script.src = url + '/app.js';
+            doc.body.appendChild(script);
+          }
+        };
+        const onCssLoad = () => {
+          if (!doc.getElementById(id + '-vendor')) {
+            var vendor = doc.createElement('script');
+            vendor.id = id + '-vendor';
+            vendor.type = 'text/javascript';
+            vendor.onload = onVendorLoad;
+            vendor.src = url + '/vendor.js';
+            doc.body.appendChild(vendor);
+          }
+        };
+        if (!doc.getElementById(id + '-css')) {
+          var style = doc.createElement('link');
+          style.id = id + '-css';
+          style.onload = onCssLoad;
+          style.rel = 'stylesheet';
+          style.href = url + '/app.css';
+          doc.body.appendChild(style);
+        }
+      })(window, document, 'tbw', 'http://localhost:3000');
     </script>
     <!-- End of the widget -->
   </body>

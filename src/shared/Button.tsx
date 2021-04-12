@@ -2,14 +2,19 @@ import { memo } from 'react';
 
 interface Props {
   children: string | JSX.Element;
+  onPress: () => void;
+  disabled?: boolean;
   variant?: 'primary' | 'link';
   'data-testid'?: string;
-  onPress: () => void;
 }
 
-const Button: React.FC<Props> = ({ variant, children, 'data-testid': testId }) => {
+const Button: React.FC<Props> = ({ variant, children, disabled, 'data-testid': testId, onPress }) => {
   return (
-    <button data-testid={testId} className={`button ${variant}`}>
+    <button
+      data-testid={testId || 'button'}
+      className={`button-wrapper ${variant}`}
+      onClick={onPress}
+      disabled={disabled}>
       {children}
     </button>
   );

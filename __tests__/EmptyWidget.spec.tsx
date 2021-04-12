@@ -7,10 +7,10 @@ afterEach(cleanup);
 describe('EmptyWidget', () => {
   it('text exists', () => {
     const { getByTestId } = render(<EmptyWidget />);
-    expect(getByTestId('text')).toBeTruthy();
+    expect(getByTestId('error-text')).toBeTruthy();
   });
   it('text has the righ text', () => {
     const { getByTestId } = render(<EmptyWidget />);
-    expect(getByTestId('text').textContent).toBe('Nothing to show');
+    expect(getByTestId('error-text').textContent).toBe('Nothing to show');
   });
 });

@@ -1,60 +1,90 @@
-import { StrictMode } from 'react';
-import { render } from 'react-dom';
-
 import './styles/index.scss';
-import { DEFAULT_LANGUAGE, ROOT_ELEMENT_ID, SupportedLanguages } from './Constants';
-import { logError } from './utils/logger';
-import { AppContext, AppContextProvider } from './context/AppContext';
-import Loading from './shared/Loading';
+import { StrictMode } from 'react';
+import { render, unmountComponentAtNode } from 'react-dom';
+
+import { AppProvider } from './context/AppContext';
+import { DataProvider } from './context/DataContext';
+
 import WidgetRenderer from './shared/WidgetRenderer';
+import { logError } from './utils/logger';
 
-class ReactWidget {
-  params = {
-    widget: '',
-    token: '',
-    language: String(SupportedLanguages[DEFAULT_LANGUAGE]),
-  };
+const renderWidget = (params: WidgetParams) => {
+  if (!params.id) return;
+  const rootEl = document.getElementById(params.id);
+  if (!rootEl || rootEl.className.includes('react-widgets')) return;
+  rootEl.className = 'react-widgets';
+  render(
+    <StrictMode>
+      <DataProvider params={params}>
+        <AppProvider>
+          <WidgetRenderer />
+        </AppProvider>
+      </DataProvider>
+    </StrictMode>,
+    rootEl,
+  );
+};
 
-  constructor(params: WidgetParams) {
-    this.params = params;
+const removeWidget = (params: WidgetParams) => {
+  const rootEl = document.getElementById(params.id);
+  if (rootEl) {
+    unmountComponentAtNode(rootEl);
+    rootEl.className = '';
+    rootEl.innerHTML = '';
   }
+};
 
-  initiate() {
-    try {
-      let rootEl = document.getElementById(ROOT_ELEMENT_ID);
-      if (!rootEl) {
-        rootEl = document.createElement('div');
-        rootEl.id = ROOT_ELEMENT_ID;
-        document.body.appendChild(rootEl);
+type ReactWidgetAppParams = WidgetParams | WidgetParams[];
+type ReactWidgetApp = {
+  params: ReactWidgetAppParams;
+  initiate: (params: ReactWidgetAppParams) => void;
+  reload: (params: ReactWidgetAppParams) => void;
+};
+const ReactWidget: ReactWidgetApp = {
+  params: [
+    {
+      id: '',
+      widget: '',
+      token: '',
+      language: 'en',
+    },
+  ],
+  initiate: () => {},
+  reload: () => {},
+};
+
+ReactWidget.initiate = (params: WidgetParams | WidgetParams[]) => {
+  try {
+    if (Array.isArray(params)) {
+      for (const k in params) {
+        if (Object.prototype.hasOwnProperty.call(params, k)) {
+          renderWidget(params[k]);
+        }
       }
-      rootEl.className = 'react-widgets';
-
-      render(
-        <StrictMode>
-          <AppContextProvider params={this.params}>
-            <AppContext.Consumer>
-              {({ initialLoading }) => (initialLoading ? <Loading /> : <WidgetRenderer />)}
-            </AppContext.Consumer>
-          </AppContextProvider>
-        </StrictMode>,
-        rootEl,
-      );
-    } catch (error) {
-      logError('Initialization error: ', error);
+    } else {
+      renderWidget(params);
     }
+    (window as any).ReactWidget.params = params;
+  } catch (error) {
+    logError('Initialization error: ', error);
   }
+};
 
-  reload() {
-    try {
-      const rootEl = document.getElementById(ROOT_ELEMENT_ID);
-      if (rootEl) {
-        rootEl.parentElement?.removeChild(rootEl);
+ReactWidget.reload = (params: WidgetParams | WidgetParams[]) => {
+  try {
+    if (Array.isArray(params)) {
+      for (const k in params) {
+        if (Object.prototype.hasOwnProperty.call(params, k)) {
+          removeWidget(params[k]);
+        }
       }
-      this.initiate();
-    } catch (error) {
-      logError('Reload error: ', error);
+    } else {
+      removeWidget(params);
     }
+    ReactWidget.initiate(params);
+  } catch (error) {
+    logError('Reload error: ', error);
   }
-}
+};
 
 (window as any).ReactWidget = ReactWidget;

@@ -1,0 +1,41 @@
+.react-widgets .button-wrapper {
+  -webkit-appearance: button;
+  border: none;
+  cursor: pointer;
+  font-size: 1em;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+
+  &.primary {
+    background: var(--button-bg-color);
+    border-radius: 0.2em;
+    color: var(--button-text-color);
+    padding: 0.625em 1.25em;
+
+    &:hover:enabled {
+      background: var(--button-hover-bg-color);
+    }
+  }
+  &.link {
+    background: transparent;
+    color: var(--button-bg-color);
+
+    &:hover:enabled {
+      color: var(--button-hover-bg-color);
+    }
+  }
+  &:disabled {
+    cursor: default;
+    opacity: 0.6;
+  }
+
+  @media (hover: none) {
+    &.primary {
+      background: var(--button-bg-color) !important;
+    }
+    &.link {
+      color: var(--button-bg-color) !important;
+    }
+  }
+}

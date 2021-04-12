@@ -1,13 +1,26 @@
 .react-widgets.theme3 {
-  --primary-color: #ff5500;
+  --primary-color: #fd5c3c;
 
-  --bg-color: #0a1c33;
-  --bg-secondary-color: #05162b;
-  --gradient-start-color: #0b1422;
-  --gradient-end-color: #042d56;
+  --bg-color: #fff;
+  --bg-secondary-color: #fff;
+
+  --gradient-start-color: #f58249;
+  --gradient-end-color: #fd5c3c;
   --gradient-degree: 90deg;
 
   --text-color: #fff;
-  --title-color: #fff;
+  --title-color: #000;
   --subtitle-color: #888;
+
+  --button-bg-color: #fd5c3c;
+  --button-hover-bg-color: #d82502;
+  --button-text-color: #fff;
+
+  --alerts-icon-color: #666;
+
+  --modal-bg-color: #fff;
+  --modal-title-color: #121212;
+  --modal-text-color: #444;
+
+  --scoreboard-text-color: #000;
 }

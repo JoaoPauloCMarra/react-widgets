@@ -1,0 +1,65 @@
+// Fade in/out
+.fade-in {
+  opacity: 1;
+  transition: opacity linear 200ms;
+}
+.fade-out {
+  opacity: 0;
+  transition: opacity linear 200ms;
+}
+
+// Slide in
+.slide-in {
+  animation-duration: 250ms;
+  animation-name: slideIn;
+  animation-timing-function: linear;
+}
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0%);
+  }
+}
+
+// Loading ellipsis
+@keyframes loading-ellipsis1 {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes loading-ellipsis3 {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0);
+  }
+}
+@keyframes loading-ellipsis2 {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(24px, 0);
+  }
+}
+
+// Live Indicator
+@keyframes live-anim {
+  0% {
+    transform: translateX(-35px);
+  }
+  50% {
+    transform: translateX(35px);
+  }
+  100% {
+    transform: translateX(-35px);
+  }
+}
