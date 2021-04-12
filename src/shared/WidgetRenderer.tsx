@@ -2,23 +2,15 @@ import React, { memo, useMemo } from 'react';
 
 import { useDataContext } from '../context/DataContext';
 import { useAppContext } from '../context/AppContext';
+import { renderWidget, EmptyWidget } from '../widgets';
 import Loading from './Loading';
 import Error from './Error';
-
-import EmptyWidget from '../widgets/EmptyWidget';
-import ListWidget from '../widgets/ListWidget';
-import FormWidget from '../widgets/FormWidget';
-
-const widgetList: { [key: string]: JSX.Element } = {
-  default: <EmptyWidget />,
-  list: <ListWidget />,
-  form: <FormWidget />,
-};
 
 const WidgetRenderer: React.FC = () => {
   const { settings } = useDataContext();
   const { loading } = useAppContext();
   const { widget, token } = settings || {};
+  const child = useMemo(() => renderWidget(widget), [widget]);
 
   if (loading) {
     return <Loading />;
@@ -29,14 +21,6 @@ const WidgetRenderer: React.FC = () => {
   if (!token) {
     return <Error text="This widget requires the client Token" />;
   }
-
-  const child = useMemo(() => {
-    try {
-      return widgetList[widget];
-    } catch (error) {
-      return widgetList.default;
-    }
-  }, [widget]);
 
   return <div className="widget-wrapper center">{child}</div>;
 };

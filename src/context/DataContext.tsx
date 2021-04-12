@@ -57,9 +57,15 @@ const DataProvider: React.FC<ProviderProps> = ({ children, params }) => {
 
   const updateSettings = async () => {
     try {
-      const { id } = params;
+      const { id, token } = params;
       // const clientData = await fetchData({ route: `/server/v1/${token}` });
-      const clientData = { theme: 'theme1' };
+      const mockData: StringObject = {
+        demotoken1: 'theme1',
+        demotoken2: 'theme2',
+        demotoken3: 'theme3',
+      };
+      const theme = mockData[token];
+      const clientData = { theme };
       dispatch({ settings: { ...params, widgetElId: id, ...clientData } });
     } catch (error) {
       logError('Setting up client data error:', error);

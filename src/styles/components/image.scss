@@ -1,0 +1,16 @@
+.react-widgets .image-wrapper {
+  display: inline-block;
+
+  img {
+    display: inline-block;
+    height: 100%;
+    width: 100%;
+  }
+  &.hidden {
+    height: 0px !important;
+
+    img {
+      display: none;
+    }
+  }
+}

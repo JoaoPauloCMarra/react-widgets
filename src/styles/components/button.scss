@@ -7,6 +7,16 @@
   padding: 0;
   width: 100%;
 
+  a,
+  button {
+    -webkit-tap-highlight-color: transparent;
+
+    &:focus,
+    &:active,
+    &:hover {
+      outline: 0;
+    }
+  }
   &.primary {
     background: var(--button-bg-color);
     border-radius: 0.2em;

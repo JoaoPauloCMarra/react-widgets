@@ -12,6 +12,7 @@ const Form: React.FC<Props> = ({ text, 'data-testid': testId }) => {
       <div className="form-content">
         <h1 data-testid="title">{text}</h1>
         <h2 data-testid="subtitle">{text}</h2>
+        <h4>FORM</h4>
       </div>
     </div>
   );

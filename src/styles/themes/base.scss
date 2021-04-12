@@ -12,17 +12,6 @@
     display: inline-block;
   }
 
-  a,
-  button {
-    -webkit-tap-highlight-color: transparent;
-
-    &:focus,
-    &:active,
-    &:hover {
-      outline: 0;
-    }
-  }
-
   h2,
   p {
     margin: 0;
@@ -36,77 +25,23 @@
     font-weight: 700;
   }
 
-  img {
-    display: inline-block;
-    height: 100%;
-    width: 100%;
+  .gradient-bg {
+    background: linear-gradient(var(--gradient-degree), var(--gradient-start-color) 0%, var(--gradient-end-color) 100%);
   }
 
-  .image-wrapper {
-    display: inline-block;
-
-    &.hidden {
-      height: 0px !important;
-
-      img {
-        display: none;
-      }
-    }
+  .horizontal-spacer {
+    padding: 0 1em;
   }
 
-  .loading-wrapper {
-    .loading-content {
-      span {
-        @extend .font-bold;
-        color: #fff;
-        font-size: 1em;
-        text-transform: uppercase;
-      }
-    }
-    .loading-ellipsis {
-      display: inline-block;
-      position: relative;
-      width: 80px;
-      height: 80px;
-
-      div {
-        position: absolute;
-        top: 33px;
-        width: 13px;
-        height: 13px;
-        border-radius: 50%;
-        background: #fff;
-        animation-timing-function: cubic-bezier(0, 1, 1, 0);
-      }
-      $animationSpeed: 0.4s;
-      div:nth-child(1) {
-        left: 8px;
-        animation: loading-ellipsis1 $animationSpeed infinite;
-      }
-      div:nth-child(2) {
-        left: 8px;
-        animation: loading-ellipsis2 $animationSpeed infinite;
-      }
-      div:nth-child(3) {
-        left: 32px;
-        animation: loading-ellipsis2 $animationSpeed infinite;
-      }
-      div:nth-child(4) {
-        left: 56px;
-        animation: loading-ellipsis3 $animationSpeed infinite;
-      }
-    }
+  .flex-spacer {
+    flex: 1;
   }
 
-  .error-wrapper {
-    .error-content {
-      span {
-        @extend .font-bold;
-        color: red;
-        font-size: 1em;
-        text-transform: uppercase;
-      }
-    }
+  .center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
   }
 
   .widget-empty {
@@ -127,25 +62,6 @@
     background: var(--bg-color);
     color: var(--text-color);
     height: 100%;
-  }
-
-  .gradient-bg {
-    background: linear-gradient(var(--gradient-degree), var(--gradient-start-color) 0%, var(--gradient-end-color) 100%);
-  }
-
-  .horizontal-spacer {
-    padding: 0 1em;
-  }
-
-  .flex-spacer {
-    flex: 1;
-  }
-
-  .center {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
   }
 
   .routes {

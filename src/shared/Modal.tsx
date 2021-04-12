@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 
 import CloseIcon from './icons/CloseIcon';
 
@@ -9,9 +9,18 @@ interface Props {
   contentCmp?: React.ReactNode;
   actionsCmp?: React.ReactNode;
   onClose?: () => void;
+  'data-testid'?: string;
 }
 
-const Modal: React.FC<Props> = ({ show, title = '', hideOverlay, contentCmp, actionsCmp, onClose }) => {
+const Modal: React.FC<Props> = ({
+  show,
+  title = '',
+  hideOverlay,
+  contentCmp,
+  actionsCmp,
+  onClose,
+  'data-testid': testId,
+}) => {
   const [fade, setFade] = useState('hidden');
 
   useEffect(() => {
@@ -29,7 +38,7 @@ const Modal: React.FC<Props> = ({ show, title = '', hideOverlay, contentCmp, act
   }, [show]);
 
   return (
-    <div className={`modal-wrapper${hideOverlay ? '' : ' modal-overlay'} fade-${fade}`}>
+    <div className={`modal-wrapper${hideOverlay ? '' : ' modal-overlay'} fade-${fade}`} data-testid={testId}>
       <div className="modal">
         <div className="header">
           <p className="modal-title font-bolder">{title}</p>
@@ -44,4 +53,4 @@ const Modal: React.FC<Props> = ({ show, title = '', hideOverlay, contentCmp, act
   );
 };
 
-export default Modal;
+export default memo(Modal);
