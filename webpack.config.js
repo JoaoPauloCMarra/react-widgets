@@ -129,10 +129,15 @@ module.exports = (env) => {
     },
     resolve: {
       extensions: ['.ts', '.tsx', '.js'],
+      alias: {
+        react: 'preact/compat',
+        'react-dom/test-utils': 'preact/test-utils',
+        'react-dom': 'preact/compat',
+      },
     },
     output: {
       // filename: devMode ? 'app.js' : bundleJsName,
-      filename: '[name].js',
+      filename: 'app.js',
       path: path.resolve(__dirname, 'dist'),
       clean: true,
       publicPath: '',
@@ -180,15 +185,15 @@ module.exports = (env) => {
     optimization: {
       minimize: true,
       minimizer,
-      splitChunks: {
-        cacheGroups: {
-          vendor: {
-            test: /[\\/]node_modules[\\/](react|react-dom|scheduler|object-assign)[\\/]/,
-            name: 'vendor',
-            chunks: 'all',
-          },
-        },
-      },
+      // splitChunks: {
+      //   cacheGroups: {
+      //     vendor: {
+      //       test: /[\\/]node_modules[\\/](preact)[\\/]/,
+      //       name: 'vendor',
+      //       chunks: 'all',
+      //     },
+      //   },
+      // },
     },
     plugins,
   };

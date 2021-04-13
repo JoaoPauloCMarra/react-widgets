@@ -61,26 +61,26 @@
 
     <!-- Start of the widget -->
     <script type="text/javascript">
-      const token = 'demotoken1';
+      const token = 'demotoken';
       const language = 'en';
       const reactWidgetParams = [
         {
           id: 'widget-list',
           widget: 'list',
-          token: token,
+          token: `${token}1`,
           language,
         },
         {
           id: 'widget-form',
           widget: 'form',
-          token: token,
+          token: `${token}2`,
           language,
         },
       ];
     </script>
-    <script defer>
+    <script type="text/javascript" defer>
       !(function (win, doc, id, url) {
-        const onVendorLoad = () => {
+        const onCssLoad = () => {
           if (!doc.getElementById(id + '-js')) {
             var script = doc.createElement('script');
             script.id = id + '-js';
@@ -90,16 +90,6 @@
             };
             script.src = url + '/app.js';
             doc.body.appendChild(script);
-          }
-        };
-        const onCssLoad = () => {
-          if (!doc.getElementById(id + '-vendor')) {
-            var vendor = doc.createElement('script');
-            vendor.id = id + '-vendor';
-            vendor.type = 'text/javascript';
-            vendor.onload = onVendorLoad;
-            vendor.src = url + '/vendor.js';
-            doc.body.appendChild(vendor);
           }
         };
         if (!doc.getElementById(id + '-css')) {

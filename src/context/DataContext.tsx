@@ -1,4 +1,5 @@
-import React, { createContext, useEffect } from 'react';
+import { createContext, FunctionalComponent } from 'preact';
+import { useContext, useEffect, useReducer, useCallback } from 'preact/hooks';
 
 import { defaultSettings } from '../Constants';
 // import useApiData from '../hooks/useApiData';
@@ -30,8 +31,8 @@ const reducer = (state: DataState, action: Partial<DataState>): DataState => ({
   ...action,
 });
 
-const DataProvider: React.FC<ProviderProps> = ({ children, params }) => {
-  const [state, dispatch] = React.useReducer(reducer, initialState);
+const DataProvider: FunctionalComponent<ProviderProps> = ({ children, params }) => {
+  const [state, dispatch] = useReducer(reducer, initialState);
   // const fetchData = useApiData();
   const { token, widget } = params;
   const { locales } = state;
@@ -50,14 +51,16 @@ const DataProvider: React.FC<ProviderProps> = ({ children, params }) => {
       }
     } catch (error) {
       result = '';
-    } finally {
-      return result;
     }
+    return result;
   };
 
-  const updateSettings = async () => {
+  const updateSettings = useCallback(async () => {
     try {
-      const { id, token } = params;
+      const { id, token } = params || {};
+      if (!id || !token) {
+        return;
+      }
       // const clientData = await fetchData({ route: `/server/v1/${token}` });
       const mockData: StringObject = {
         demotoken1: 'theme1',
@@ -66,12 +69,13 @@ const DataProvider: React.FC<ProviderProps> = ({ children, params }) => {
       };
       const theme = mockData[token];
       const clientData = { theme };
-      dispatch({ settings: { ...params, widgetElId: id, ...clientData } });
+      const settings = { ...params, widgetElId: id, ...clientData };
+      dispatch({ settings });
     } catch (error) {
       logError('Setting up client data error:', error);
       dispatch({ settings: defaultSettings });
     }
-  };
+  }, [params]);
 
   const updateLocales = async () => {
     try {
@@ -96,13 +100,13 @@ const DataProvider: React.FC<ProviderProps> = ({ children, params }) => {
     if (token && widget) {
       startup();
     }
-  }, [token, widget]);
+  }, [token, widget, updateSettings]);
 
   return <Context.Provider value={{ ...state, translate }}>{children}</Context.Provider>;
 };
 
 const useDataContext = () => {
-  const context = React.useContext(Context);
+  const context = useContext(Context);
   if (context === undefined) {
     throw new Error('DataProvider not properly setup');
   }

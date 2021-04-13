@@ -1,4 +1,5 @@
-import React, { memo, useMemo, useRef, useState } from 'react';
+import { FunctionalComponent } from 'preact';
+import { memo, useRef, useMemo, useState } from 'preact/compat';
 
 import Form from '../shared/Form';
 
@@ -8,7 +9,7 @@ interface Props {
   initialRoute?: Route;
 }
 
-const FormWidget: React.FC<Props> = ({ initialRoute = 'entryForm' }) => {
+const FormWidget: FunctionalComponent<Props> = ({ initialRoute = 'entryForm' }) => {
   const [route, setRoute] = useState(initialRoute);
   const [transition, setTransition] = useState('');
   const transitionId = useRef<any>();

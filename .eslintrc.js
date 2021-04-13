@@ -1,6 +1,7 @@
 module.exports = {
   parser: '@typescript-eslint/parser',
   extends: [
+    'preact',
     'plugin:react/recommended',
     'plugin:@typescript-eslint/recommended',
     'prettier',
@@ -14,7 +15,7 @@ module.exports = {
     },
   },
   settings: {
-    react: {
+    preact: {
       version: 'detect',
     },
   },

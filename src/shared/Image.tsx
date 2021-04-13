@@ -1,4 +1,5 @@
-import React, { memo, useState } from 'react';
+import { FunctionalComponent } from 'preact';
+import { memo, useState } from 'preact/compat';
 import { logError } from '../utils/logger';
 
 interface Props {
@@ -7,7 +8,7 @@ interface Props {
   'data-testid'?: string;
 }
 
-const Error: React.FC<Props> = ({ src, alt = '...', 'data-testid': testId }) => {
+const Error: FunctionalComponent<Props> = ({ src, alt = '...', 'data-testid': testId }) => {
   const [loading, setLoading] = useState(true);
 
   const onLoad = () => {

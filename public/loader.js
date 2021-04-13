@@ -1,15 +1,13 @@
 !(function (win, doc) {
-  const assetServer = 'http://ASSET_SERVER/v1';
-
-  let clientParams = win.ReactWidget.params || {};
+  const assetServer = 'http://localhost:5000';
+  let clientParams = win.ReactWidget && win.ReactWidget.params ? win.ReactWidget.params : {};
 
   const onInitialized = () => {
     try {
       const locationSearch = location.search.substring(1);
       let query = {};
-
       if (locationSearch) {
-        query = JSON.parse('{"' + locationSearch.replace(/&/g, '","').replace(/=/g, '":"') + '"}', (key, value) =>
+        query = JSON.parse(`{"${locationSearch.replace(/&/g, '","').replace(/=/g, '":"')}"}`, (key, value) =>
           key === '' ? value : decodeURIComponent(value),
         );
       }
@@ -29,47 +27,35 @@
         win.ReactWidget.initiate(widgetParams);
       }
     } catch (error) {
+      console.log('React-Widget Loader Error:');
       console.log(error);
     }
   };
 
-  const onVendorLoad = () => {
+  const onCssLoaded = () => {
     if (!doc.getElementById(scriptId)) {
       script = doc.createElement('script');
       script.id = scriptId;
       script.crossOrigin = true;
       script.type = 'text/javascript';
-      script.onload = () => onInitialized();
-      script.src = assetServer + '/script.js';
+      script.onload = onInitialized;
+      script.src = `${assetServer}/app.js`;
       doc.body.appendChild(script);
     }
   };
-  const onCssLoaded = () => {
-    if (!doc.getElementById(vendorId)) {
-      vendor = doc.createElement('script');
-      vendor.id = vendorId;
-      vendor.crossOrigin = true;
-      vendor.type = 'text/javascript';
-      vendor.onload = onVendorLoad;
-      vendor.src = assetServer + '/vendor.js';
-      doc.body.appendChild(vendor);
-    }
-  };
 
-  var id = 'react-widgets-asset';
-  var vendor,
-    script,
+  let id = 'react-widgets-asset';
+  let script,
     style,
-    vendorId = id + '-vendor',
-    scriptId = id + '-js',
-    styleId = id + '-css';
+    scriptId = `${id}-js`,
+    styleId = `${id}-css`;
   if (!doc.getElementById(styleId)) {
     style = doc.createElement('link');
     style.id = styleId;
     style.crossOrigin = true;
     style.onload = onCssLoaded;
     style.rel = 'stylesheet';
-    style.href = assetServer + '/style.css';
+    style.href = `${assetServer}/app.css`;
     doc.body.appendChild(style);
   }
 })(window, document);

@@ -1,4 +1,5 @@
-import React, { memo, useMemo, useRef, useState } from 'react';
+import { FunctionalComponent } from 'preact';
+import { memo, useRef, useMemo, useState } from 'preact/compat';
 
 import Form from '../shared/Form';
 import List from '../shared/List';
@@ -9,7 +10,7 @@ interface Props {
   initialRoute?: Route;
 }
 
-const ListWidget: React.FC<Props> = ({ initialRoute = 'list' }) => {
+const ListWidget: FunctionalComponent<Props> = ({ initialRoute = 'list' }) => {
   const [route, setRoute] = useState(initialRoute);
   const [transition, setTransition] = useState('');
   const transitionId = useRef<any>();

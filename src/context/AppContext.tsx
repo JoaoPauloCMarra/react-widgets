@@ -1,4 +1,5 @@
-import { createContext, useContext, useEffect, useReducer } from 'react';
+import { createContext, FunctionalComponent } from 'preact';
+import { useContext, useEffect, useReducer } from 'preact/hooks';
 
 import { useDataContext } from './DataContext';
 import Loading from '../shared/Loading';
@@ -18,7 +19,7 @@ const reducer = (state: AppState, action: Partial<AppState>): AppState => ({
   ...action,
 });
 
-const AppProvider: React.FC = ({ children }) => {
+const AppProvider: FunctionalComponent = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const { loading: dataLoading, settings } = useDataContext();
   const { widgetElId, theme } = settings || {};
@@ -28,7 +29,7 @@ const AppProvider: React.FC = ({ children }) => {
     const startup = async () => {
       const rootEl = document.getElementById(String(widgetElId));
       if (rootEl && theme) {
-        rootEl.className += ' ' + theme;
+        rootEl.className += ` ${theme}`;
       }
       dispatch({ loading: false });
     };

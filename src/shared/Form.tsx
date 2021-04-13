@@ -1,4 +1,5 @@
-import React, { memo } from 'react';
+import { FunctionalComponent } from 'preact';
+import { memo } from 'preact/compat';
 
 interface Props {
   text?: string;
@@ -6,7 +7,7 @@ interface Props {
   'data-testid'?: string;
 }
 
-const Form: React.FC<Props> = ({ text, 'data-testid': testId }) => {
+const Form: FunctionalComponent<Props> = ({ text, 'data-testid': testId }) => {
   return (
     <div className="form-wrapper center" data-testid={testId}>
       <div className="form-content">

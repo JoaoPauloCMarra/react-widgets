@@ -1,4 +1,5 @@
-import { memo } from 'react';
+import { FunctionalComponent } from 'preact';
+import { memo } from 'preact/compat';
 
 interface Props {
   children: string | JSX.Element;
@@ -8,7 +9,7 @@ interface Props {
   'data-testid'?: string;
 }
 
-const Button: React.FC<Props> = ({ variant, children, disabled, 'data-testid': testId, onPress }) => {
+const Button: FunctionalComponent<Props> = ({ variant, children, disabled, 'data-testid': testId, onPress }) => {
   return (
     <button
       data-testid={testId || 'button'}

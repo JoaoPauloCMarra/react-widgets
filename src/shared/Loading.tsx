@@ -1,6 +1,7 @@
-import React, { memo } from 'react';
+import { FunctionalComponent } from 'preact';
+import { memo } from 'preact/compat';
 
-const Loading: React.FC = () => (
+const Loading: FunctionalComponent = () => (
   <div className="loading-wrapper center">
     <div className="loading-content">
       <div className="loading-ellipsis">

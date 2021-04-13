@@ -1,11 +1,12 @@
-import React, { memo } from 'react';
+import { FunctionalComponent } from 'preact';
+import { memo } from 'preact/compat';
 
 interface Props {
   text?: string;
   'data-testid'?: string;
 }
 
-const Error: React.FC<Props> = ({ text, 'data-testid': testId }) => {
+const Error: FunctionalComponent<Props> = ({ text, 'data-testid': testId }) => {
   return (
     <div className="error-wrapper center">
       <div className="error-content">

@@ -1,6 +1,6 @@
+import { render } from 'preact';
+
 import './styles/index.scss';
-import { StrictMode } from 'react';
-import { render, unmountComponentAtNode } from 'react-dom';
 
 import { AppProvider } from './context/AppContext';
 import { DataProvider } from './context/DataContext';
@@ -14,13 +14,11 @@ const renderWidget = (params: WidgetParams) => {
   if (!rootEl || rootEl.className.includes('react-widgets')) return;
   rootEl.className = 'react-widgets';
   render(
-    <StrictMode>
-      <DataProvider params={params}>
-        <AppProvider>
-          <WidgetRenderer />
-        </AppProvider>
-      </DataProvider>
-    </StrictMode>,
+    <DataProvider params={params}>
+      <AppProvider>
+        <WidgetRenderer />
+      </AppProvider>
+    </DataProvider>,
     rootEl,
   );
 };
@@ -28,7 +26,7 @@ const renderWidget = (params: WidgetParams) => {
 const removeWidget = (params: WidgetParams) => {
   const rootEl = document.getElementById(params.id);
   if (rootEl) {
-    unmountComponentAtNode(rootEl);
+    render(<></>, rootEl);
     rootEl.className = '';
     rootEl.innerHTML = '';
   }

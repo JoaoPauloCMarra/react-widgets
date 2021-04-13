@@ -1,4 +1,5 @@
-import React, { memo, useEffect, useState } from 'react';
+import { FunctionalComponent } from 'preact';
+import { memo, useEffect, useState } from 'preact/compat';
 
 import CloseIcon from './icons/CloseIcon';
 
@@ -6,13 +7,13 @@ interface Props {
   show?: boolean;
   title?: string;
   hideOverlay?: boolean;
-  contentCmp?: React.ReactNode;
-  actionsCmp?: React.ReactNode;
+  contentCmp?: JSX.Element;
+  actionsCmp?: JSX.Element;
   onClose?: () => void;
   'data-testid'?: string;
 }
 
-const Modal: React.FC<Props> = ({
+const Modal: FunctionalComponent<Props> = ({
   show,
   title = '',
   hideOverlay,
@@ -26,16 +27,15 @@ const Modal: React.FC<Props> = ({
   useEffect(() => {
     if (!show && fade === 'hidden') {
       setFade('hidden');
-    } else {
-      if (!show) {
-        setFade('out');
-        setTimeout(() => setFade('hidden'), 250);
-      } else {
-        setFade('transp');
-        setTimeout(() => setFade('in'), 100);
-      }
     }
-  }, [show]);
+    if (!show) {
+      setFade('out');
+      setTimeout(() => setFade('hidden'), 250);
+    } else {
+      setFade('transp');
+      setTimeout(() => setFade('in'), 100);
+    }
+  }, [show, fade]);
 
   return (
     <div className={`modal-wrapper${hideOverlay ? '' : ' modal-overlay'} fade-${fade}`} data-testid={testId}>

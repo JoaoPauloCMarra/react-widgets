@@ -1,4 +1,5 @@
-import React, { memo, useMemo } from 'react';
+import { FunctionalComponent } from 'preact';
+import { memo, useMemo } from 'preact/compat';
 
 import { useDataContext } from '../context/DataContext';
 import { useAppContext } from '../context/AppContext';
@@ -6,7 +7,7 @@ import { renderWidget, EmptyWidget } from '../widgets';
 import Loading from './Loading';
 import Error from './Error';
 
-const WidgetRenderer: React.FC = () => {
+const WidgetRenderer: FunctionalComponent = () => {
   const { settings } = useDataContext();
   const { loading } = useAppContext();
   const { widget, token } = settings || {};
