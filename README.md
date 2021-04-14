@@ -1,3 +1,5 @@
+![fullstack workflow](https://github.com/JoaoPauloCMarra/react-widgets/actions/workflows/main.yml/badge.svg)
+
 # React Widgets
 
 ### Developer Instruction
