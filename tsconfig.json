@@ -18,6 +18,6 @@
     "noEmit": false,
     "sourceMap": true
   },
-  "include": ["src", "__tests__"],
+  "include": ["src"],
   "exclude": ["node_modules", "dist"]
 }

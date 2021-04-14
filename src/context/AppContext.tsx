@@ -22,10 +22,9 @@ const reducer = (state: AppState, action: Partial<AppState>): AppState => ({
 const AppProvider: FunctionalComponent = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const { loading: dataLoading, settings } = useDataContext();
-  const { widgetElId, theme } = settings || {};
-  const { loading } = state;
 
   useEffect(() => {
+    const { widgetElId, theme } = settings || {};
     const startup = async () => {
       const rootEl = document.getElementById(String(widgetElId));
       if (rootEl && theme) {
@@ -36,9 +35,9 @@ const AppProvider: FunctionalComponent = ({ children }) => {
     if (!dataLoading && widgetElId && theme) {
       startup();
     }
-  }, [dataLoading, widgetElId, theme]);
+  }, [dataLoading, settings]);
 
-  return <Context.Provider value={state}>{loading ? <Loading /> : children}</Context.Provider>;
+  return <Context.Provider value={state}>{state.loading ? <Loading /> : children}</Context.Provider>;
 };
 
 const useAppContext = (): AppState => {

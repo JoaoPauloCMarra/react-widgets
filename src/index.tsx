@@ -1,12 +1,10 @@
 import { render } from 'preact';
 
 import './styles/index.scss';
-
+import { logError } from './utils/logger';
 import { AppProvider } from './context/AppContext';
 import { DataProvider } from './context/DataContext';
-
 import WidgetRenderer from './shared/WidgetRenderer';
-import { logError } from './utils/logger';
 
 const renderWidget = (params: WidgetParams) => {
   if (!params.id) return;

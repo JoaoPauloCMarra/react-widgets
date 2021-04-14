@@ -1,6 +1,6 @@
 import { cleanup, render } from '@testing-library/react';
 
-import ListWidget from '../src/widgets/ListWidget';
+import ListWidget from '../ListWidget';
 
 afterEach(cleanup);
 

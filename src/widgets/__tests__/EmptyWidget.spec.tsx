@@ -1,6 +1,6 @@
 import { cleanup, render } from '@testing-library/react';
 
-import EmptyWidget from '../src/widgets/EmptyWidget';
+import EmptyWidget from '../EmptyWidget';
 
 afterEach(cleanup);
 

@@ -10,6 +10,7 @@ const TerserPlugin = require('terser-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const typescriptFormatter = require('react-dev-utils/typescriptFormatter');
 const RemoveSourceMapUrlWebpackPlugin = require('@rbarilani/remove-source-map-url-webpack-plugin');
+const sassGlobImporter = require('node-sass-glob-importer');
 
 const deployToAnotherProject = true;
 let fileManagerSettings = {
@@ -172,7 +173,15 @@ module.exports = (env) => {
             MiniCssExtractPlugin.loader,
             { loader: 'css-loader', options: { url: false, sourceMap: false } },
             'postcss-loader',
-            { loader: 'sass-loader', options: { sourceMap: false } },
+            {
+              loader: 'sass-loader',
+              options: {
+                sourceMap: false,
+                sassOptions: {
+                  importer: sassGlobImporter(),
+                },
+              },
+            },
           ],
         },
         {

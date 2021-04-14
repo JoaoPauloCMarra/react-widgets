@@ -1,20 +1,6 @@
 @import 'https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap';
 
-@import './reset.scss';
-@import './themes/base.scss';
-@import './themes/theme1.scss';
-@import './themes/theme2.scss';
-@import './themes/theme3.scss';
-
-@import './widgets/form-widget.scss';
-@import './widgets/list-widget.scss';
-
-@import './components/button.scss';
-@import './components/error.scss';
-@import './components/form.scss';
-@import './components/image.scss';
-@import './components/list.scss';
-@import './components/loading.scss';
-@import './components/modal.scss';
-
-@import './animations.scss';
+@import './utils/*';
+@import './themes/*';
+@import './widgets/*';
+@import './components/*';

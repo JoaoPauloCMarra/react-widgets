@@ -1,6 +1,6 @@
 import { cleanup, render } from '@testing-library/react';
 
-import FormWidget from '../src/widgets/FormWidget';
+import FormWidget from '../FormWidget';
 
 afterEach(cleanup);
 
