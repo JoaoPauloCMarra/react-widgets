@@ -19,18 +19,7 @@
     </style>
   </head>
   <body>
-    <div id="widget-self-hosted"></div>
-
-    <script type="text/javascript">
-      window.ReactWidget = {
-        params: {
-          id: 'widget-self-hosted',
-          widget: Math.random() < 0.5 ? 'form' : 'list',
-          token: `demotoken${Math.ceil(Math.random() * (3 - 1) + 1)}`,
-          language: 'en',
-        },
-      };
-    </script>
+    <react-widgets widget="list" token="demotoken1" language="en"></react-widgets>
     <script crossorigin type="text/javascript" src="/loader.js" defer></script>
   </body>
 </html>

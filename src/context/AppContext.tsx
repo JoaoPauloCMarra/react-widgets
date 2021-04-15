@@ -4,6 +4,10 @@ import { useContext, useEffect, useReducer } from 'preact/hooks';
 import { useDataContext } from './DataContext';
 import Loading from '../shared/Loading';
 
+interface ProviderProps {
+  widgetEl: any;
+}
+
 interface AppState {
   loading: boolean;
 }
@@ -19,23 +23,22 @@ const reducer = (state: AppState, action: Partial<AppState>): AppState => ({
   ...action,
 });
 
-const AppProvider: FunctionalComponent = ({ children }) => {
+const AppProvider: FunctionalComponent<ProviderProps> = ({ children, widgetEl }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const { loading: dataLoading, settings } = useDataContext();
 
   useEffect(() => {
-    const { widgetElId, theme } = settings || {};
+    const { theme } = settings || {};
     const startup = async () => {
-      const rootEl = document.getElementById(String(widgetElId));
-      if (rootEl && theme) {
-        rootEl.className += ` ${theme}`;
+      if (widgetEl && theme) {
+        widgetEl.className += ` ${theme}`;
       }
       dispatch({ loading: false });
     };
-    if (!dataLoading && widgetElId && theme) {
+    if (!dataLoading && widgetEl && theme) {
       startup();
     }
-  }, [dataLoading, settings]);
+  }, [dataLoading, settings, widgetEl]);
 
   return <Context.Provider value={state}>{state.loading ? <Loading /> : children}</Context.Provider>;
 };

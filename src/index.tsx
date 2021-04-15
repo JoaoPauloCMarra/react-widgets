@@ -1,4 +1,6 @@
-import { render } from 'preact';
+import { FunctionalComponent } from 'preact';
+import { useEffect, useRef, useState } from 'preact/hooks';
+import register from 'preact-custom-element';
 
 import './styles/index.scss';
 import { logError } from './utils/logger';
@@ -6,81 +8,36 @@ import { AppProvider } from './context/AppContext';
 import { DataProvider } from './context/DataContext';
 import WidgetRenderer from './shared/WidgetRenderer';
 
-const renderWidget = (params: WidgetParams) => {
-  if (!params.id) return;
-  const rootEl = document.getElementById(params.id);
-  if (!rootEl || rootEl.className.includes('react-widgets')) return;
-  rootEl.className = 'react-widgets';
-  render(
-    <DataProvider params={params}>
-      <AppProvider>
-        <WidgetRenderer />
-      </AppProvider>
-    </DataProvider>,
-    rootEl,
+interface WebComponent extends FunctionalComponent<WidgetParams> {
+  tagName: string;
+  observedAttributes: string[];
+}
+
+const Main: WebComponent = (props) => {
+  const [el, setEl] = useState(null);
+  const ref = useRef(null);
+  useEffect(() => {
+    setEl(ref.current);
+  }, [ref]);
+
+  if (!props.widget || !props.token) {
+    logError('React Widgets Error', 'Widget or Token not provided...');
+    return <></>;
+  }
+
+  return (
+    <div className="react-widgets" ref={ref}>
+      {el && (
+        <DataProvider params={props}>
+          <AppProvider widgetEl={el}>
+            <WidgetRenderer />
+          </AppProvider>
+        </DataProvider>
+      )}
+    </div>
   );
 };
+Main.tagName = 'react-widgets';
+Main.observedAttributes = ['widget', 'token'];
 
-const removeWidget = (params: WidgetParams) => {
-  const rootEl = document.getElementById(params.id);
-  if (rootEl) {
-    render(<></>, rootEl);
-    rootEl.className = '';
-    rootEl.innerHTML = '';
-  }
-};
-
-type ReactWidgetAppParams = WidgetParams | WidgetParams[];
-type ReactWidgetApp = {
-  params: ReactWidgetAppParams;
-  initiate: (params: ReactWidgetAppParams) => void;
-  reload: (params: ReactWidgetAppParams) => void;
-};
-const ReactWidget: ReactWidgetApp = {
-  params: [
-    {
-      id: '',
-      widget: '',
-      token: '',
-      language: 'en',
-    },
-  ],
-  initiate: () => {},
-  reload: () => {},
-};
-
-ReactWidget.initiate = (params: WidgetParams | WidgetParams[]) => {
-  try {
-    if (Array.isArray(params)) {
-      for (const k in params) {
-        if (Object.prototype.hasOwnProperty.call(params, k)) {
-          renderWidget(params[k]);
-        }
-      }
-    } else {
-      renderWidget(params);
-    }
-    (window as any).ReactWidget.params = params;
-  } catch (error) {
-    logError('Initialization error: ', error);
-  }
-};
-
-ReactWidget.reload = (params: WidgetParams | WidgetParams[]) => {
-  try {
-    if (Array.isArray(params)) {
-      for (const k in params) {
-        if (Object.prototype.hasOwnProperty.call(params, k)) {
-          removeWidget(params[k]);
-        }
-      }
-    } else {
-      removeWidget(params);
-    }
-    ReactWidget.initiate(params);
-  } catch (error) {
-    logError('Reload error: ', error);
-  }
-};
-
-(window as any).ReactWidget = ReactWidget;
+register(Main, 'react-widgets', [], { shadow: false });

@@ -46,38 +46,19 @@
   <body>
     <div class="card phone">
       <h1>List</h1>
-      <div id="widget-list"></div>
+      <react-widgets widget="list" token="demotoken1" language="en"></react-widgets>
     </div>
     <br /><br />
     <hr />
     <br /><br />
     <div class="card banner">
       <h1>Form</h1>
-      <div id="widget-form"></div>
+      <react-widgets widget="form" token="demotoken2" language="en"></react-widgets>
     </div>
     <br /><br />
     <hr />
     <br /><br />
 
-    <!-- Start of the widget -->
-    <script type="text/javascript">
-      const token = 'demotoken';
-      const language = 'en';
-      const reactWidgetParams = [
-        {
-          id: 'widget-list',
-          widget: 'list',
-          token: `${token}1`,
-          language,
-        },
-        {
-          id: 'widget-form',
-          widget: 'form',
-          token: `${token}2`,
-          language,
-        },
-      ];
-    </script>
     <script type="text/javascript" defer>
       !(function (win, doc, id, url) {
         const onCssLoad = () => {
@@ -85,9 +66,6 @@
             var script = doc.createElement('script');
             script.id = id + '-js';
             script.type = 'text/javascript';
-            script.onload = () => {
-              win.ReactWidget.initiate(reactWidgetParams);
-            };
             script.src = url + '/app.js';
             doc.body.appendChild(script);
           }

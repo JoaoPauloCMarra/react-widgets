@@ -56,12 +56,10 @@ const DataProvider: FunctionalComponent<ProviderProps> = ({ children, params }) 
 
   const updateSettings = useCallback(async () => {
     try {
-      const { id, token } = params || {};
-      if (!id || !token) {
-        return;
-      }
+      const { token } = params || {};
+      if (!token) return;
       const clientData = await fetchData({ route: `/token`, filter: { key: 'token', value: token } });
-      const settings = { ...params, widgetElId: id, ...clientData };
+      const settings = { ...params, ...clientData };
       dispatch({ settings });
     } catch (error) {
       logError('Setting up client data error:', error);

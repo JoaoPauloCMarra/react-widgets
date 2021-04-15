@@ -16,14 +16,12 @@ interface Routes {
 }
 
 declare type WidgetParams = {
-  id: string;
   token: string;
   widget: string;
   language?: string;
 };
 
 declare type ClientSettings = {
-  widgetElId: string;
   token: string;
   widget: string;
   language?: string;

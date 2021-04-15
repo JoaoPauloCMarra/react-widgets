@@ -15,7 +15,8 @@
     "prepare": "husky install"
   },
   "dependencies": {
-    "preact": "^10.5.13"
+    "preact": "^10.5.13",
+    "preact-custom-element": "^4.2.1"
   },
   "devDependencies": {
     "@babel/core": "^7.13.15",
@@ -26,6 +27,7 @@
     "@testing-library/react": "^11.2.6",
     "@types/jest": "^26.0.22",
     "@types/node": "^14.14.37",
+    "@types/preact-custom-element": "^4.0.0",
     "@types/react-test-renderer": "^17.0.1",
     "@typescript-eslint/eslint-plugin": "^4.21.0",
     "@typescript-eslint/parser": "^4.21.0",
