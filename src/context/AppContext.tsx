@@ -30,8 +30,9 @@ const AppProvider: FunctionalComponent<ProviderProps> = ({ children, widgetEl })
   useEffect(() => {
     const { theme } = settings || {};
     const startup = async () => {
-      if (widgetEl && theme) {
-        widgetEl.className += ` ${theme}`;
+      if (widgetEl && theme && !widgetEl?.className?.includes(theme)) {
+        const firstClassName = widgetEl.className.split(' ')[0];
+        widgetEl.className = `${firstClassName} ${theme}`;
       }
       dispatch({ loading: false });
     };

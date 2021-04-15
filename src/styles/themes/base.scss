@@ -1,4 +1,4 @@
-.react-widgets {
+& {
   font-family: 'Lato', sans-serif;
   font-size: 16px;
   font-weight: 400;
@@ -7,64 +7,64 @@
   position: relative;
   height: 100%;
   width: 100%;
+}
 
-  svg {
-    display: inline-block;
-  }
+svg {
+  display: inline-block;
+}
 
-  h2,
-  p {
-    margin: 0;
-    padding: 0;
-  }
-  .font-normal {
-    font-weight: 400;
-  }
-  .font-bold,
-  .font-bolder {
-    font-weight: 700;
-  }
+h2,
+p {
+  margin: 0;
+  padding: 0;
+}
+.font-normal {
+  font-weight: 400;
+}
+.font-bold,
+.font-bolder {
+  font-weight: 700;
+}
 
-  .gradient-bg {
-    background: linear-gradient(var(--gradient-degree), var(--gradient-start-color) 0%, var(--gradient-end-color) 100%);
-  }
+.gradient-bg {
+  background: linear-gradient(var(--gradient-degree), var(--gradient-start-color) 0%, var(--gradient-end-color) 100%);
+}
 
-  .horizontal-spacer {
-    padding: 0 1em;
-  }
+.horizontal-spacer {
+  padding: 0 1em;
+}
 
-  .flex-spacer {
-    flex: 1;
-  }
+.flex-spacer {
+  flex: 1;
+}
 
-  .center {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
+.center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
 
-  .widget-empty {
-    .error-content {
-      span {
-        @extend .font-bold;
-        color: #fff;
-        font-size: 1em;
-        text-transform: uppercase;
-      }
+.widget-empty {
+  .error-content {
+    span {
+      @extend .font-bold;
+      color: #fff;
+      font-size: 1em;
+      text-transform: uppercase;
     }
   }
+}
 
-  .loading-wrapper,
-  .error-wrapper,
-  .widget-empty,
-  .widget-wrapper {
-    background: var(--bg-color);
-    color: var(--text-color);
-    height: 100%;
-  }
+.loading-wrapper,
+.error-wrapper,
+.widget-empty,
+.widget-wrapper {
+  background: var(--bg-color);
+  color: var(--text-color);
+  height: 100%;
+}
 
-  .routes {
-    width: 100%;
-  }
+.routes {
+  width: 100%;
 }

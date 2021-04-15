@@ -7,15 +7,12 @@ import { logError } from './utils/logger';
 import { AppProvider } from './context/AppContext';
 import { DataProvider } from './context/DataContext';
 import WidgetRenderer from './shared/WidgetRenderer';
+import Loading from './shared/Loading';
 
-interface WebComponent extends FunctionalComponent<WidgetParams> {
-  tagName: string;
-  observedAttributes: string[];
-}
-
-const Main: WebComponent = (props) => {
+const Main: FunctionalComponent<WidgetParams> = (props) => {
   const [el, setEl] = useState(null);
   const ref = useRef(null);
+
   useEffect(() => {
     setEl(ref.current);
   }, [ref]);
@@ -27,17 +24,17 @@ const Main: WebComponent = (props) => {
 
   return (
     <div className="react-widgets" ref={ref}>
-      {el && (
+      {el ? (
         <DataProvider params={props}>
           <AppProvider widgetEl={el}>
             <WidgetRenderer />
           </AppProvider>
         </DataProvider>
+      ) : (
+        <Loading />
       )}
     </div>
   );
 };
-Main.tagName = 'react-widgets';
-Main.observedAttributes = ['widget', 'token'];
 
-register(Main, 'react-widgets', [], { shadow: false });
+register(Main, 'react-widgets', ['widget', 'token'], { shadow: false });
