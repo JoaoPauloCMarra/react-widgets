@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-
+const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -11,12 +10,30 @@ const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const typescriptFormatter = require('react-dev-utils/typescriptFormatter');
 const RemoveSourceMapUrlWebpackPlugin = require('@rbarilani/remove-source-map-url-webpack-plugin');
 const sassGlobImporter = require('node-sass-glob-importer');
+const UglifyJS = require('uglify-js');
+const chalk = require('chalk');
 
+const readFile = (filePath) => fs.readFileSync(filePath, 'utf8');
 const deployToAnotherProject = true;
 let fileManagerSettings = {
   onStart: {},
   onEnd: {},
 };
+
+const PostBuild = ({ files, options }) => ({
+  apply: (compiler) => {
+    compiler.hooks.afterEmit.tap('AfterEmitPlugin', () => {
+      try {
+        files.forEach((f) => {
+          fs.writeFileSync(f, UglifyJS.minify(readFile(f), options).code, { encoding: 'utf8', flag: 'w' });
+        });
+        process.stdout.write('\x1B[2J\x1B[3J\x1B[H' + chalk.cyan('\nBuild complete\n'));
+      } catch (error) {
+        process.stdout.write(chalk.red(error));
+      }
+    });
+  },
+});
 
 module.exports = (env) => {
   const devMode = env.NODE_ENV !== 'production';
@@ -82,6 +99,7 @@ module.exports = (env) => {
       new FileManagerPlugin({
         events: fileManagerSettings,
       }),
+      PostBuild({ files: ['./dist/loader.js'] }),
     ];
   }
 
@@ -194,15 +212,6 @@ module.exports = (env) => {
     optimization: {
       minimize: true,
       minimizer,
-      // splitChunks: {
-      //   cacheGroups: {
-      //     vendor: {
-      //       test: /[\\/]node_modules[\\/](preact)[\\/]/,
-      //       name: 'vendor',
-      //       chunks: 'all',
-      //     },
-      //   },
-      // },
     },
     plugins,
   };
