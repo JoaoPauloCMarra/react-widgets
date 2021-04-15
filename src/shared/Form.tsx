@@ -17,7 +17,7 @@ const Form: FunctionalComponent<Props> = ({ text, 'data-testid': testId }) => {
       <div className="form-content">
         <h1 data-testid="title">{text}</h1>
         <h2 data-testid="subtitle">{text}</h2>
-        <h4>{translate('FORM')}</h4>
+        <h3>{translate('FORM')}</h3>
       </div>
     </div>
   );

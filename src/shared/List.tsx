@@ -17,7 +17,7 @@ const List: FunctionalComponent<Props> = ({ text, 'data-testid': testId }) => {
       <div className="list-content">
         <h1 data-testid="title">{text}</h1>
         <h2 data-testid="subtitle">{text}</h2>
-        <h4>{translate('LIST')}</h4>
+        <h3>{translate('LIST')}</h3>
       </div>
     </div>
   );
