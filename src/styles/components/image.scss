@@ -6,11 +6,8 @@
     height: 100%;
     width: 100%;
   }
-  &.hidden {
-    height: 0px !important;
-
-    img {
-      display: none;
-    }
+  .image-preloader {
+    background: #ddd;
+    animation: blink 0.5s linear infinite;
   }
 }
