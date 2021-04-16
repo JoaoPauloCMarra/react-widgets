@@ -35,13 +35,20 @@ const PostBuild = ({ files, options }) => ({
   },
 });
 
+const DevHooks = () => ({
+  apply: (compiler) => {
+    const hooks = ForkTsCheckerWebpackPlugin.getCompilerHooks(compiler);
+    hooks.waiting.tap('start', () => {
+      process.stdout.write('\x1B[2J\x1B[3J\x1B[H' + chalk.cyan('\nDev mode started\n'));
+    });
+  },
+});
+
 module.exports = (env) => {
   const devMode = env.NODE_ENV !== 'production';
 
   let plugins = [
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoEmitOnErrorsPlugin(),
-    new MiniCssExtractPlugin(),
+    new MiniCssExtractPlugin({ filename: 'app.css' }),
     new ForkTsCheckerWebpackPlugin({
       async: devMode,
       typescript: {
@@ -51,17 +58,21 @@ module.exports = (env) => {
         files: './src/**/*.{ts,tsx}',
       },
       formatter: !devMode ? typescriptFormatter : undefined,
+      logger: { infrastructure: 'silent', issues: 'console', devServer: true },
     }),
   ];
   if (devMode) {
     plugins = [
       ...plugins,
+      new webpack.HotModuleReplacementPlugin(),
+      new webpack.NoEmitOnErrorsPlugin(),
       new HtmlWebpackPlugin({
         inject: false,
         favicon: false,
         template: path.join(__dirname, 'public', 'index.dev.html'),
         filename: 'index.html',
       }),
+      DevHooks(),
     ];
   } else {
     if (deployToAnotherProject) {
@@ -155,7 +166,6 @@ module.exports = (env) => {
       },
     },
     output: {
-      // filename: devMode ? 'app.js' : bundleJsName,
       filename: 'app.js',
       path: path.resolve(__dirname, 'dist'),
       clean: true,
@@ -172,17 +182,21 @@ module.exports = (env) => {
     module: {
       rules: [
         {
-          test: /\.(js|jsx)$/,
+          test: /\.(ts|tsx)$/,
           exclude: /node_modules/,
-          use: ['babel-loader'],
+          use: [
+            {
+              loader: 'ts-loader',
+              options: {
+                transpileOnly: true,
+              },
+            },
+          ],
         },
         {
-          test: /\.(ts|tsx)$/,
-          loader: 'ts-loader',
+          test: /\.js$/,
           exclude: /node_modules/,
-          options: {
-            transpileOnly: true,
-          },
+          use: ['babel-loader'],
         },
         {
           test: /\.(css|scss)$/,

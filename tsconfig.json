@@ -16,6 +16,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": false,
+    "removeComments": true,
     "sourceMap": true
   },
   "include": ["src"],
