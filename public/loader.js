@@ -1,5 +1,5 @@
 !(function (doc) {
-  const assetServer = 'http://localhost:5000';
+  const assetServer = '';
   let id = 'react-widgets-asset';
   let style,
     vendor,

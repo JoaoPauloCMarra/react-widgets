@@ -30,7 +30,7 @@ const ListWidget: FunctionalComponent<Props> = ({ initialRoute = 'list' }) => {
   }, []);
 
   return (
-    <div className="list-widget center">
+    <div className="list-widget">
       <div className={`routes ${transition}`}>{routes[route]}</div>
     </div>
   );

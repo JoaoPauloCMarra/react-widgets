@@ -29,7 +29,7 @@ const FormWidget: FunctionalComponent<Props> = ({ initialRoute = 'entryForm' }) 
   }, []);
 
   return (
-    <div className="form-widget center">
+    <div className="form-widget">
       <div className={`routes ${transition}`}>{routes[route]}</div>
     </div>
   );

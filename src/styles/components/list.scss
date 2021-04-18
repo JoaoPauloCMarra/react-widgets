@@ -1,22 +1,22 @@
 .list-wrapper {
-  display: flex;
-  height: 100%;
+  @extend .scrollable;
+  width: 100%;
 
   .list-content {
+    @extend .center;
+
     @include unify-parent('ul') {
-      @extend .scrollable;
       list-style: none;
+      flex: 1;
       margin: 0;
-      padding: 2em 0;
+      padding: 2em 1em;
     }
   }
   .list-item {
     background: var(--list-item-bg-color);
     filter: var(--filter-drop-shadow);
-    margin-bottom: 2em;
-    margin-left: 1em;
-    margin-right: 1em;
-    padding: 1em 1em;
+    margin: 0 0 2em 0;
+    padding: 2em 1em;
 
     &:last-child {
       margin-bottom: 0;

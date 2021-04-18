@@ -18,8 +18,9 @@ $palette: (
   --text-color: #fff;
 
   --button-bg-color: #{palette('accent')};
-  --button-hover-bg-color: #{palette('accent')};
+  --button-hover-bg-color: #{palette-level('accent', 2)};
   --button-text-color: #fff;
+  --button-hover-text-color: #fff;
 
   --modal-bg-color: #fff;
   --modal-title-color: #333;
@@ -33,4 +34,8 @@ $palette: (
   --list-item-author-border-color: #{palette('accent')};
 
   --form-bg-color: #{palette('background')};
+  --form-input-bg-color: #{palette('foreground')};
+  --form-input-border-color: #{palette('secondary')};
+  --form-input-label-color: #{palette('foreground')};
+  --form-input-text-color: #{palette('background')};
 }

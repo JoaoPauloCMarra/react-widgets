@@ -347,3 +347,13 @@ template {
 [hidden] {
   display: none;
 }
+
+*:focus {
+  outline: 0 !important;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}

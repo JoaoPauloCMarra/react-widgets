@@ -7,16 +7,6 @@
   padding: 0;
   width: 100%;
 
-  a,
-  button {
-    -webkit-tap-highlight-color: transparent;
-
-    &:focus,
-    &:active,
-    &:hover {
-      outline: 0;
-    }
-  }
   &.primary {
     background: var(--button-bg-color);
     border-radius: 0.2em;
@@ -25,6 +15,7 @@
 
     &:hover:enabled {
       background: var(--button-hover-bg-color);
+      color: var(--button-hover-text-color);
     }
   }
   &.link {
@@ -46,6 +37,18 @@
     }
     &.link {
       color: var(--button-bg-color) !important;
+    }
+  }
+
+  a,
+  button {
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+
+    &:focus,
+    &:active,
+    &:hover {
+      outline: 0;
     }
   }
 }

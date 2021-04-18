@@ -5,12 +5,8 @@ import FormWidget from '../FormWidget';
 afterEach(cleanup);
 
 describe('FormWidget Widget', () => {
-  it('title exists', () => {
+  it('widget exists', () => {
     const { getByTestId } = render(<FormWidget />);
-    expect(getByTestId('title')).toBeTruthy();
-  });
-  it('subtitle exists', () => {
-    const { getByTestId } = render(<FormWidget />);
-    expect(getByTestId('subtitle')).toBeTruthy();
+    expect(getByTestId('form-widget')).toBeTruthy();
   });
 });

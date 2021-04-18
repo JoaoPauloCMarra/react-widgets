@@ -12,19 +12,79 @@
     <link rel="icon" type="image/png" href="data:;base64,iVBORw0KGgo=" />
     <meta name="theme-color" content="#000" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
     <style>
       html,
       body {
         background: #000;
-        height: 100%;
         margin: 0;
         padding: 0;
+      }
+      .item {
+        border-bottom: 2px solid #666;
+        padding-bottom: 20px;
+        margin-bottom: 20px;
+      }
+      .item:last-of-type {
+        border-bottom-width: 0;
+        padding-bottom: 0;
+      }
+      .center {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+      }
+      .center h2 {
+        font-size: 16px;
+        color: #ddd;
+        margin: 0;
+        padding: 0;
+      }
+      .card {
+        border: 1px solid #fff;
+        margin: 20px auto;
+        position: relative;
+        overflow: hidden;
+      }
+      .card.phone {
+        border-radius: 12px;
+        height: 568px;
+        width: 320px;
+      }
+      .card.form {
+        height: 400px;
+        width: 320px;
+      }
+      .card.banner {
+        height: 320px;
+        width: 320px;
       }
     </style>
   </head>
   <body>
-    <react-widgets widget="list" token="demotoken1" language="en"></react-widgets>
+    <div class="item center">
+      <div class="card phone">
+        <react-widgets widget="list" token="demotoken1" language="en"></react-widgets>
+      </div>
+      <h2>List</h2>
+    </div>
+
+    <div class="item center">
+      <div class="card form">
+        <react-widgets widget="form" token="demotoken2" language="en"></react-widgets>
+      </div>
+      <h2>Form</h2>
+    </div>
+
+    <div class="item center">
+      <div class="card banner">
+        <react-widgets widget="sss" token="demotoken2" language="en"></react-widgets>
+      </div>
+      <h2>404</h2>
+    </div>
+
     <script crossorigin type="text/javascript" src="/loader.js" defer></script>
   </body>
 </html>

@@ -4,6 +4,8 @@ declare type BooleanObject = { [key: string]: boolean };
 declare type NumberObject = { [key: string]: number };
 declare type StringBooleanNumberObject = { [key: string]: string | boolean | number };
 
+type OnSubmit = GenericEventHandler<Target> | UseFormHandleSubmit<TFieldValues>;
+
 declare type Locales = { [key: string]: string };
 
 interface Routes {

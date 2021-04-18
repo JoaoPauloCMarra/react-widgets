@@ -68,28 +68,25 @@ p {
 .widget-wrapper {
   @extend .gradient-bg;
   overflow: hidden;
-  height: 100%;
   width: 100%;
 }
 
-.routes {
+.routes,
+[class*='-widget'] {
   @extend .center;
   overflow: hidden;
   height: 100%;
   width: 100%;
 }
 
-[class*='-widget'] {
-  overflow: hidden;
+.empty-widget {
   height: 100%;
   width: 100%;
-}
 
-.empty-widget {
   .message {
     background: var(--form-bg-color);
     filter: var(--filter-drop-shadow);
-    padding: 1em 4em;
+    padding: 2em;
     width: 100%;
   }
 }

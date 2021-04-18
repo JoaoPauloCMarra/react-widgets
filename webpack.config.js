@@ -233,7 +233,7 @@ module.exports = (env) => {
       splitChunks: {
         cacheGroups: {
           vendor: {
-            test: /[\\/]node_modules[\\/](preact|preact-custom-element)[\\/]/,
+            test: /[\\/]node_modules[\\/](preact|preact-custom-element|react-hook-form)[\\/]/,
             name: 'vendor',
             chunks: 'all',
           },

@@ -11,12 +11,13 @@
     "format": "prettier --config ./.prettierrc.js --write \"{src,__{tests,mocks}__}/**/*.{ts,tsx,scss}\"",
     "lint": "eslint --ext .tsx,.ts .",
     "test": "jest -u --colors",
-    "serve": "yarn build && serve ./dist",
+    "serve": "yarn build && serve -p 3000 ./dist",
     "prepare": "husky install"
   },
   "dependencies": {
     "preact": "^10.5.13",
-    "preact-custom-element": "^4.2.1"
+    "preact-custom-element": "^4.2.1",
+    "react-hook-form": "^7.1.1"
   },
   "devDependencies": {
     "@babel/core": "^7.13.15",
