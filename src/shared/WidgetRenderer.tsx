@@ -38,7 +38,7 @@ const WidgetRenderer: FunctionalComponent = () => {
     return <Error text="This widget requires the client Token" />;
   }
 
-  return <div className="widget-wrapper center">{child}</div>;
+  return <div className="widget-wrapper">{child}</div>;
 };
 
 export default memo(WidgetRenderer);

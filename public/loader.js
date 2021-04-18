@@ -1,12 +1,14 @@
 !(function (doc) {
   const assetServer = 'http://localhost:5000';
   let id = 'react-widgets-asset';
-  let script,
-    style,
-    scriptId = `${id}-js`,
-    styleId = `${id}-css`;
+  let style,
+    vendor,
+    script,
+    styleId = `${id}-css`,
+    vendorId = `${id}-vendor`,
+    scriptId = `${id}-js`;
 
-  const onCssLoaded = () => {
+  const onVendorLoaded = () => {
     if (!doc.getElementById(scriptId)) {
       script = doc.createElement('script');
       script.id = scriptId;
@@ -14,6 +16,17 @@
       script.type = 'text/javascript';
       script.src = `${assetServer}/app.js`;
       doc.body.appendChild(script);
+    }
+  };
+  const onCssLoaded = () => {
+    if (!doc.getElementById(vendorId)) {
+      vendor = doc.createElement('script');
+      vendor.id = vendorId;
+      vendor.crossOrigin = true;
+      vendor.onload = onVendorLoaded;
+      vendor.type = 'text/javascript';
+      vendor.src = `${assetServer}/vendor.js`;
+      doc.body.appendChild(vendor);
     }
   };
   if (!doc.getElementById(styleId)) {

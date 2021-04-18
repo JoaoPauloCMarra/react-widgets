@@ -19,7 +19,7 @@ const List: FunctionalComponent<Props> = ({ 'data-testid': testId }) => {
   }, [updatePosts]);
 
   return (
-    <div className="list-wrapper center gradient-bg" data-testid="list-widget">
+    <div className="list-wrapper" data-testid="list-widget">
       {postsLoading && (
         <div className="list-content">
           <Loading />

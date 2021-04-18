@@ -1,13 +1,16 @@
 & {
   background: var(--bg-color);
+  color: var(--text-color);
   font-family: 'Lato', sans-serif;
   font-size: 16px;
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
+  display: flex;
   overflow: hidden;
   position: relative;
   height: 100%;
   width: 100%;
+  z-index: 0;
 }
 
 svg {
@@ -46,6 +49,42 @@ p {
   justify-content: center;
 }
 
+.stretch {
+  display: flex;
+  align-items: stretch;
+  justify-content: stretch;
+}
+
+.scrollable {
+  -webkit-overflow-scrolling: touch;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+.widget-wrapper {
+  @extend .gradient-bg;
+  overflow: hidden;
+  height: 100%;
+  width: 100%;
+}
+
+.routes {
+  @extend .center;
+  overflow: hidden;
+  height: 100%;
+  width: 100%;
+}
+
+[class*='-widget'] {
+  overflow: hidden;
+  height: 100%;
+  width: 100%;
+}
+
 .empty-widget {
   .message {
     background: var(--form-bg-color);
@@ -53,20 +92,4 @@ p {
     padding: 1em 4em;
     width: 100%;
   }
-}
-
-[class*='-widget'],
-.loading-wrapper,
-.widget-wrapper {
-  color: var(--text-color);
-  height: 100%;
-  width: 100%;
-}
-
-.routes {
-  display: flex;
-  align-items: stretch;
-  justify-content: stretch;
-  height: 100%;
-  width: 100%;
 }

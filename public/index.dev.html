@@ -3,17 +3,16 @@
   <head>
     <meta charset="utf-8" />
     <title>React Widgets Dev Demo</title>
-    <meta name="description" content="" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="a demo application with an open source project built in react to be used as widgets/webcomponents"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="theme-color" content="#fff" />
-    <link rel="icon" href="data:;base64,iVBORw0KGgo=" />
-    <!-- <meta property="og:title" content="" /> -->
-    <!-- <meta property="og:type" content="" /> -->
-    <!-- <meta property="og:url" content="" /> -->
-    <!-- <meta property="og:image" content="" /> -->
-    <!-- <link rel="manifest" href="site.webmanifest" /> -->
-    <!-- <link rel="apple-touch-icon" href="icon.png" /> -->
+    <link rel="icon" type="image/png" href="data:;base64,iVBORw0KGgo=" />
+    <meta name="theme-color" content="#000" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
     <style>
       html,
       body {
@@ -26,17 +25,16 @@
         border: 1px solid #fff;
         margin: 20px auto;
         position: relative;
+        overflow: hidden;
       }
       .card.phone {
         border-radius: 12px;
         height: 568px;
         width: 320px;
-        overflow: hidden;
       }
       .card.banner {
         height: 200px;
         width: 320px;
-        overflow: hidden;
       }
     </style>
   </head>
@@ -66,22 +64,42 @@
     <br /><br />
 
     <script type="text/javascript" defer>
-      !(function (win, doc, id, url) {
-        const onCssLoad = () => {
-          if (!doc.getElementById(id + '-js')) {
-            var script = doc.createElement('script');
-            script.id = id + '-js';
+      !(function (win, doc, id, assetServer) {
+        let style,
+          vendor,
+          script,
+          styleId = `${id}-css`,
+          vendorId = `${id}-vendor`,
+          scriptId = `${id}-js`;
+
+        const onVendorLoaded = () => {
+          if (!doc.getElementById(scriptId)) {
+            script = doc.createElement('script');
+            script.id = scriptId;
+            script.crossOrigin = true;
             script.type = 'text/javascript';
-            script.src = url + '/app.js';
+            script.src = `${assetServer}/app.js`;
             doc.body.appendChild(script);
           }
         };
-        if (!doc.getElementById(id + '-css')) {
-          var style = doc.createElement('link');
-          style.id = id + '-css';
-          style.onload = onCssLoad;
+        const onCssLoaded = () => {
+          if (!doc.getElementById(vendorId)) {
+            vendor = doc.createElement('script');
+            vendor.id = vendorId;
+            vendor.crossOrigin = true;
+            vendor.onload = onVendorLoaded;
+            vendor.type = 'text/javascript';
+            vendor.src = `${assetServer}/vendor.js`;
+            doc.body.appendChild(vendor);
+          }
+        };
+        if (!doc.getElementById(styleId)) {
+          style = doc.createElement('link');
+          style.id = styleId;
+          style.crossOrigin = true;
+          style.onload = onCssLoaded;
           style.rel = 'stylesheet';
-          style.href = url + '/app.css';
+          style.href = `${assetServer}/app.css`;
           doc.body.appendChild(style);
         }
       })(window, document, 'tbw', 'http://localhost:3000');

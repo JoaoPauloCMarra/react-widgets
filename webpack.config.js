@@ -169,7 +169,6 @@ module.exports = (env) => {
       },
     },
     output: {
-      filename: 'app.js',
       path: path.resolve(__dirname, 'dist'),
       clean: true,
       publicPath: '',
@@ -206,12 +205,12 @@ module.exports = (env) => {
           exclude: /node_modules/,
           use: [
             MiniCssExtractPlugin.loader,
-            { loader: 'css-loader', options: { url: false, sourceMap: false } },
+            { loader: 'css-loader', options: { url: false, sourceMap: devMode } },
             'postcss-loader',
             {
               loader: 'sass-loader',
               options: {
-                sourceMap: false,
+                sourceMap: devMode,
                 sassOptions: {
                   importer: sassGlobImporter(),
                 },
@@ -229,6 +228,15 @@ module.exports = (env) => {
     optimization: {
       minimize: true,
       minimizer,
+      splitChunks: {
+        cacheGroups: {
+          vendor: {
+            test: /[\\/]node_modules[\\/](preact|preact-custom-element)[\\/]/,
+            name: 'vendor',
+            chunks: 'all',
+          },
+        },
+      },
     },
     plugins,
   };
