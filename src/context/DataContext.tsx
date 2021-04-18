@@ -1,7 +1,7 @@
 import { createContext, FunctionalComponent } from 'preact';
 import { useContext, useEffect, useReducer, useCallback } from 'preact/hooks';
 
-import { defaultSettings } from '../Constants';
+import { apiRoutes, defaultSettings } from '../Constants';
 import useApiData from '../hooks/useApiData';
 import { logError } from '../utils/logger';
 
@@ -16,12 +16,19 @@ interface DataState {
 
   locales?: Locales;
   translate: (path: string, replaceKeys?: string[], replaceWith?: { [key: string]: string }) => string;
+
+  postsLoading?: boolean;
+  posts?: Post[];
+  updatePosts: () => void;
 }
 
 const initialState: DataState = {
   loading: true,
 
   translate: () => '',
+
+  postsLoading: true,
+  updatePosts: () => {},
 };
 
 const Context = createContext<DataState>(initialState);
@@ -54,46 +61,64 @@ const DataProvider: FunctionalComponent<ProviderProps> = ({ children, params }) 
     return result;
   };
 
-  const updateSettings = useCallback(async () => {
-    try {
-      const { token } = params || {};
-      if (!token) return;
-      const clientData = await fetchData({ route: `/token`, filter: { key: 'token', value: token } });
-      const settings = { ...params, ...clientData };
-      dispatch({ settings });
-    } catch (error) {
-      logError('Setting up client data error:', error);
-      dispatch({ settings: defaultSettings });
-    }
-  }, [params, fetchData]);
+  const updateSettings = useCallback(
+    async (params: WidgetParams) => {
+      try {
+        const { token } = params || {};
+        if (!token) return;
+        const clientData = await fetchData({ route: apiRoutes.token, filter: { key: 'token', value: token } });
+        const settings = { ...params, ...clientData };
+        dispatch({ settings });
+      } catch (error) {
+        logError('Setting up client data error:', error);
+        dispatch({ settings: defaultSettings });
+      }
+    },
+    [fetchData],
+  );
 
-  const updateLocales = async () => {
+  const updateLocales = useCallback(
+    async (language: string) => {
+      try {
+        if (!language) return;
+        const locales: Locales = await fetchData({
+          route: `${apiRoutes.translation}/${language}}`,
+          mock: true,
+        });
+        dispatch({ locales });
+      } catch (error) {
+        dispatch({ locales: {} });
+      }
+    },
+    [fetchData],
+  );
+
+  const updatePosts = useCallback(async () => {
     try {
-      // const { language } = params;
-      // const response: Locales = await fetchData({
-      //   route: `/server-translations-json/${language}}`,
-      // });
-      const response = { FORM: 'Form', LIST: 'List' };
-      dispatch({ locales: response });
+      dispatch({ postsLoading: true });
+      const posts: Post[] = await fetchData({
+        route: apiRoutes.post,
+        sort: { by: 'createdAt', type: 'desc' },
+      });
+      dispatch({ posts, postsLoading: false });
     } catch (error) {
-      dispatch({ locales: {} });
+      dispatch({ posts: [] });
     }
-  };
+  }, [fetchData]);
 
   useEffect(() => {
-    const { token, widget } = params;
+    const { token, language = 'en', widget } = params;
     const startup = async () => {
-      await updateSettings();
-      await updateLocales();
-
+      await updateSettings(params);
+      await updateLocales(language);
       dispatch({ loading: false });
     };
     if (token && widget) {
       startup();
     }
-  }, [params, updateSettings]);
+  }, [params, updateLocales, updateSettings]);
 
-  return <Context.Provider value={{ ...state, translate }}>{children}</Context.Provider>;
+  return <Context.Provider value={{ ...state, translate, updatePosts }}>{children}</Context.Provider>;
 };
 
 const useDataContext = () => {

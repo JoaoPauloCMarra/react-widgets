@@ -23,29 +23,25 @@
         padding: 0;
       }
       .card {
+        border: 1px solid #fff;
         margin: 20px auto;
+        position: relative;
       }
       .card.phone {
+        border-radius: 12px;
         height: 568px;
         width: 320px;
+        overflow: hidden;
       }
       .card.banner {
         height: 200px;
         width: 320px;
-      }
-      h1 {
-        color: white;
-        font-family: sans-serif;
-        font-size: 16px;
-        font-weight: bolder;
-        margin-bottom: 5px;
-        text-transform: uppercase;
+        overflow: hidden;
       }
     </style>
   </head>
   <body>
     <div class="card phone">
-      <h1>List</h1>
       <react-widgets widget="list" token="demotoken1" language="en"></react-widgets>
     </div>
 
@@ -54,8 +50,15 @@
     <br /><br />
 
     <div class="card banner">
-      <h1>Form</h1>
       <react-widgets widget="form" token="demotoken2" language="en"></react-widgets>
+    </div>
+
+    <br /><br />
+    <hr />
+    <br /><br />
+
+    <div class="card banner">
+      <react-widgets widget="sss" token="demotoken2" language="en"></react-widgets>
     </div>
 
     <br /><br />

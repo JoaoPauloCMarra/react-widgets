@@ -10,6 +10,7 @@ const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const typescriptFormatter = require('react-dev-utils/typescriptFormatter');
 const RemoveSourceMapUrlWebpackPlugin = require('@rbarilani/remove-source-map-url-webpack-plugin');
 const sassGlobImporter = require('node-sass-glob-importer');
+const Dotenv = require('dotenv-webpack');
 const UglifyJS = require('uglify-js');
 const chalk = require('chalk');
 
@@ -45,7 +46,7 @@ const DevHooks = () => ({
 });
 
 module.exports = (env) => {
-  const devMode = env.NODE_ENV !== 'production';
+  const devMode = !env.production;
 
   let plugins = [
     new MiniCssExtractPlugin({ filename: 'app.css' }),
@@ -64,6 +65,7 @@ module.exports = (env) => {
   if (devMode) {
     plugins = [
       ...plugins,
+      new Dotenv({ path: './.env.dev' }),
       new webpack.HotModuleReplacementPlugin(),
       new webpack.NoEmitOnErrorsPlugin(),
       new HtmlWebpackPlugin({
@@ -83,6 +85,10 @@ module.exports = (env) => {
     }
     plugins = [
       ...plugins,
+      new Dotenv({ path: './.env' }),
+      new FileManagerPlugin({
+        events: fileManagerSettings,
+      }),
       new HtmlWebpackPlugin({
         inject: false,
         favicon: false,
@@ -107,9 +113,6 @@ module.exports = (env) => {
         noAssetMatch: 'warn',
       }),
       new RemoveSourceMapUrlWebpackPlugin(),
-      new FileManagerPlugin({
-        events: fileManagerSettings,
-      }),
       PostBuild({ files: ['./dist/loader.js'] }),
     ];
   }

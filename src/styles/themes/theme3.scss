@@ -1,26 +1,36 @@
+$palette: (
+  'primary': #ff72e0,
+  'accent': #d98328,
+  'secondary': #fec98d,
+  'foreground': #fafafa,
+  'background': #010037,
+);
+
 &.theme3 {
-  --primary-color: #48cae4;
+  --bg-color: #{palette('primary')};
 
-  --bg-color: #03045e;
-  --bg-secondary-color: #023e8a;
-
-  --gradient-start-color: #03045e;
-  --gradient-end-color: #023e8a;
+  --gradient-start-color: #{palette('secondary')};
+  --gradient-end-color: #{palette('primary')};
   --gradient-degree: 90deg;
 
-  --text-color: #fff;
-  --title-color: #000;
-  --subtitle-color: #888;
+  --filter-drop-shadow: drop-shadow(rgba(0, 0, 0, 0.53) 0.5em 0.6em 0.7em);
 
-  --button-bg-color: #90e0ef;
-  --button-hover-bg-color: #caf0f8;
+  --text-color: #fff;
+
+  --button-bg-color: #{palette('accent')};
+  --button-hover-bg-color: #{palette('accent')};
   --button-text-color: #fff;
 
-  --alerts-icon-color: #666;
-
   --modal-bg-color: #fff;
-  --modal-title-color: #121212;
-  --modal-text-color: #444;
+  --modal-title-color: #333;
+  --modal-text-color: #333;
 
-  --scoreboard-text-color: #000;
+  --list-item-bg-color: #{palette('background')};
+  --list-item-date-color: #b1afb2;
+  --list-item-title-color: #{palette('primary')};
+  --list-item-text-color: #{palette('foreground')};
+  --list-item-author-color: #{palette('accent')};
+  --list-item-author-border-color: #{palette('accent')};
+
+  --form-bg-color: #{palette('background')};
 }

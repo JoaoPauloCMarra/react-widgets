@@ -1,2 +1,10 @@
 .form-wrapper {
+  text-align: center;
+  width: 100%;
+
+  .form-content {
+    background: var(--form-bg-color);
+    filter: var(--filter-drop-shadow);
+    padding: 1em 4em;
+  }
 }

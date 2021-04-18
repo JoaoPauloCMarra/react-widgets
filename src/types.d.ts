@@ -5,11 +5,6 @@ declare type NumberObject = { [key: string]: number };
 declare type StringBooleanNumberObject = { [key: string]: string | boolean | number };
 
 declare type Locales = { [key: string]: string };
-declare type Language = {
-  slug: string;
-  label: string;
-};
-declare type Languages = { [key: string]: StringObject[] };
 
 interface Routes {
   [key: string]: JSX.Element;
@@ -26,4 +21,13 @@ declare type ClientSettings = {
   widget: string;
   language?: string;
   theme?: string;
+};
+
+declare type Post = {
+  id: string;
+  createdAt: string;
+  authorName: string;
+  authorAvatar: string;
+  title: string;
+  text: string;
 };

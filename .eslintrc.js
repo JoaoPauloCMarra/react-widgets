@@ -20,13 +20,14 @@ module.exports = {
     },
   },
   rules: {
+    '@typescript-eslint/no-var-requires': 0,
     '@typescript-eslint/no-explicit-any': 0,
     '@typescript-eslint/explicit-module-boundary-types': 0,
     '@typescript-eslint/no-empty-function': 0,
+    '@typescript-eslint/no-unused-vars': ['error'],
     'react/react-in-jsx-scope': 0,
     'react/prop-types': 0,
     'react/jsx-key': 0,
     'no-unused-vars': 0,
-    '@typescript-eslint/no-unused-vars': ['error'],
   },
 };

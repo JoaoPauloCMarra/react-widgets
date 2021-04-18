@@ -1,0 +1,32 @@
+@use "sass:color";
+@use "sass:selector";
+@use "sass:map";
+
+@mixin unify-parent($child) {
+  @at-root #{selector.unify(&, $child)} {
+    @content;
+  }
+}
+
+$palette: ();
+
+@function palette($key: 'primary') {
+  @return map-get($palette, $key);
+}
+
+@function palette-level($color-name: 'primary', $level: 0) {
+  $color: palette($color-name);
+  $color-base: if($level < 0, black, white);
+
+  @return mix($color-base, $color, $level * 10%);
+}
+
+@function palette-alpha($name: 'primary', $opacity: 0) {
+  $color: palette($name);
+
+  @if map-key-exists($scotch-opacity, $opacity) {
+    $opacity: map-get($scotch-opacity, $opacity);
+  }
+
+  @return rgba($color, $opacity);
+}

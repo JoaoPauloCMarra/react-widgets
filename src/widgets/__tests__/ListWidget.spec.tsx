@@ -5,12 +5,8 @@ import ListWidget from '../ListWidget';
 afterEach(cleanup);
 
 describe('ListWidget Widget', () => {
-  it('title exists', () => {
+  it('list widget exists', () => {
     const { getByTestId } = render(<ListWidget />);
-    expect(getByTestId('title')).toBeTruthy();
-  });
-  it('subtitle exists', () => {
-    const { getByTestId } = render(<ListWidget />);
-    expect(getByTestId('subtitle')).toBeTruthy();
+    expect(getByTestId('list-widget')).toBeTruthy();
   });
 });

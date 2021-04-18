@@ -1,13 +1,16 @@
 .image-wrapper {
   display: inline-block;
 
+  &.hidden {
+    display: none;
+  }
   img {
     display: inline-block;
     height: 100%;
     width: 100%;
   }
   .image-preloader {
-    background: #ddd;
+    background: #ccccd2;
     animation: blink 0.5s linear infinite;
   }
 }

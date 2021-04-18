@@ -1,4 +1,8 @@
-export const API_URL = 'https://6076a9411ed0ae0017d697d7.mockapi.io/api/v1';
+export const apiRoutes = {
+  token: '/token',
+  translation: '/translation',
+  post: '/post',
+};
 
 export const defaultSettings: ClientSettings = {
   token: '',

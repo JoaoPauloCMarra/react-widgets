@@ -1,24 +1,40 @@
 import { FunctionalComponent } from 'preact';
-import { memo } from 'preact/compat';
+import React, { memo, useEffect } from 'preact/compat';
 
 import { useDataContext } from '../context/DataContext';
+import ListItem from './ListItem';
+import Loading from './Loading';
+import Error from './Error';
 
 interface Props {
-  text?: string;
   onClose?: () => void;
   'data-testid'?: string;
 }
 
-const List: FunctionalComponent<Props> = ({ text, 'data-testid': testId }) => {
-  const { translate } = useDataContext();
+const List: FunctionalComponent<Props> = ({ 'data-testid': testId }) => {
+  const { translate, updatePosts, postsLoading, posts = [] } = useDataContext();
+
+  useEffect(() => {
+    updatePosts();
+  }, [updatePosts]);
 
   return (
-    <div className="list-wrapper center" data-testid={testId}>
-      <div className="list-content">
-        <h1 data-testid="title">{text}</h1>
-        <h2 data-testid="subtitle">{text}</h2>
-        <h3>{translate('LIST')}</h3>
-      </div>
+    <div className="list-wrapper center gradient-bg" data-testid="list-widget">
+      {postsLoading && (
+        <div className="list-content">
+          <Loading />
+        </div>
+      )}
+      {!postsLoading && posts.length === 0 && (
+        <div className="list-content">
+          <Error text={translate('EMPTY_LIST')} />
+        </div>
+      )}
+      {!postsLoading && posts.length > 0 && (
+        <ul className="list-content" data-testid={testId}>
+          {React.Children.toArray(posts?.map((data: Post) => <ListItem data={data} />))}
+        </ul>
+      )}
     </div>
   );
 };

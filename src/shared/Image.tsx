@@ -13,6 +13,7 @@ interface Props {
 
 const Error: FunctionalComponent<Props> = ({ src, alt = '...', height, width, 'data-testid': testId }) => {
   const [loading, setLoading] = useState(true);
+  const [failed, setFailed] = useState(false);
 
   const onLoad = useCallback(() => {
     setLoading(false);
@@ -20,6 +21,8 @@ const Error: FunctionalComponent<Props> = ({ src, alt = '...', height, width, 'd
 
   const onError = useCallback(
     (e: any) => {
+      setLoading(false);
+      setFailed(true);
       logError('Image Loader', `image: ${src}\n`, e);
     },
     [src],
@@ -37,7 +40,7 @@ const Error: FunctionalComponent<Props> = ({ src, alt = '...', height, width, 'd
   const style = useMemo(() => ({ height, width }), [height, width]);
 
   return (
-    <span className={`image-wrapper${loading ? ' hidden' : ''}`}>
+    <span className={`image-wrapper${failed ? ' hidden' : ''}`}>
       {loading && <div className="image-preloader" style={style} />}
       {!loading && <img data-testid={testId} src={src} alt={alt} style={style} />}
     </span>
