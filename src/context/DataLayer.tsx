@@ -7,6 +7,7 @@ import { logError } from '../utils/logger';
 
 interface ProviderProps {
   params: WidgetParams;
+  widgetEl: null | HTMLElement;
 }
 
 interface DataState {
@@ -38,7 +39,7 @@ const reducer = (state: DataState, action: Partial<DataState>): DataState => ({
   ...action,
 });
 
-const DataProvider: FunctionalComponent<ProviderProps> = ({ children, params }) => {
+export const DataLayerProvider: FunctionalComponent<ProviderProps> = ({ children, params, widgetEl }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const fetchData = useApiData();
 
@@ -67,6 +68,11 @@ const DataProvider: FunctionalComponent<ProviderProps> = ({ children, params }) 
         const { token } = params || {};
         if (!token) return;
         const clientData = await fetchData({ route: apiRoutes.token, filter: { key: 'token', value: token } });
+        const { theme } = clientData;
+        if (widgetEl && theme && !widgetEl?.className?.includes(theme)) {
+          const [firstClassName] = widgetEl.className.split(' ');
+          widgetEl.className = `${firstClassName} ${theme}`;
+        }
         const settings = { ...params, ...clientData };
         dispatch({ settings });
       } catch (error) {
@@ -74,7 +80,7 @@ const DataProvider: FunctionalComponent<ProviderProps> = ({ children, params }) 
         dispatch({ settings: defaultSettings });
       }
     },
-    [fetchData],
+    [fetchData, widgetEl],
   );
 
   const updateLocales = useCallback(
@@ -121,11 +127,10 @@ const DataProvider: FunctionalComponent<ProviderProps> = ({ children, params }) 
   return <Context.Provider value={{ ...state, translate, updatePosts }}>{children}</Context.Provider>;
 };
 
-const useDataContext = () => {
+export const useDataLayer = () => {
   const context = useContext(Context);
   if (context === undefined) {
-    throw new Error('DataProvider not properly setup');
+    throw new Error('DataLayerProvider not properly setup');
   }
   return context;
 };
-export { DataProvider, useDataContext };

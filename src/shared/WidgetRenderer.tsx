@@ -1,8 +1,7 @@
 import { FunctionalComponent } from 'preact';
 import { memo, useMemo } from 'preact/compat';
 
-import { useDataContext } from '../context/DataContext';
-import { useAppContext } from '../context/AppContext';
+import { useDataLayer } from '../context/DataLayer';
 import Loading from './Loading';
 import Error from './Error';
 import EmptyWidget from '../widgets/EmptyWidget';
@@ -16,8 +15,7 @@ const widgetList: { [key: string]: JSX.Element } = {
 };
 
 const WidgetRenderer: FunctionalComponent = () => {
-  const { settings } = useDataContext();
-  const { loading } = useAppContext();
+  const { loading, settings } = useDataLayer();
   const { widget, token } = settings || {};
   const child = useMemo(() => {
     try {

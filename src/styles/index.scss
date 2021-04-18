@@ -1,8 +1,8 @@
-@import 'https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap';
-
 .react-widgets {
   @import './utils/*';
   @import './themes/*';
   @import './widgets/*';
   @import './components/*';
 }
+
+@import 'https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap';

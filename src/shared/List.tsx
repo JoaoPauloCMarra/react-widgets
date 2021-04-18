@@ -1,7 +1,7 @@
 import { FunctionalComponent } from 'preact';
 import React, { memo, useEffect } from 'preact/compat';
 
-import { useDataContext } from '../context/DataContext';
+import { useDataLayer } from '../context/DataLayer';
 import ListItem from './ListItem';
 import Loading from './Loading';
 import Error from './Error';
@@ -12,7 +12,7 @@ interface Props {
 }
 
 const List: FunctionalComponent<Props> = ({ 'data-testid': testId }) => {
-  const { translate, updatePosts, postsLoading, posts = [] } = useDataContext();
+  const { translate, updatePosts, postsLoading, posts = [] } = useDataLayer();
 
   useEffect(() => {
     updatePosts();

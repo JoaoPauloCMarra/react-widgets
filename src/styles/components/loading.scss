@@ -1,4 +1,8 @@
 .loading-wrapper {
+  @extend .center;
+  height: 100%;
+  width: 100%;
+
   .loading-content {
     opacity: 0.8;
   }

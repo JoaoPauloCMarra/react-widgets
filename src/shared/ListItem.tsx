@@ -1,6 +1,6 @@
 import { FunctionalComponent } from 'preact';
 import { memo, useMemo } from 'preact/compat';
-import { useDataContext } from '../context/DataContext';
+import { useDataLayer } from '../context/DataLayer';
 
 import Image from './Image';
 
@@ -12,7 +12,7 @@ interface Props {
 const avatarSize = 28;
 
 const ListItem: FunctionalComponent<Props> = ({ data, 'data-testid': testId }) => {
-  const { settings } = useDataContext();
+  const { settings } = useDataLayer();
   const { language = 'en' } = settings || {};
   const { id, title, authorName, createdAt } = data;
 

@@ -4,8 +4,7 @@ import register from 'preact-custom-element';
 
 import './styles/index.scss';
 import { logError } from './utils/logger';
-import { AppProvider } from './context/AppContext';
-import { DataProvider } from './context/DataContext';
+import { DataLayerProvider } from './context/DataLayer';
 import WidgetRenderer from './shared/WidgetRenderer';
 import Loading from './shared/Loading';
 
@@ -25,11 +24,9 @@ const Main: FunctionalComponent<WidgetParams> = (props) => {
   return (
     <div className="react-widgets" ref={ref}>
       {el ? (
-        <DataProvider params={props}>
-          <AppProvider widgetEl={el}>
-            <WidgetRenderer />
-          </AppProvider>
-        </DataProvider>
+        <DataLayerProvider params={props} widgetEl={el}>
+          <WidgetRenderer />
+        </DataLayerProvider>
       ) : (
         <Loading />
       )}

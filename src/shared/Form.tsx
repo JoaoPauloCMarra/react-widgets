@@ -1,7 +1,7 @@
 import { FunctionalComponent } from 'preact';
 import { memo } from 'preact/compat';
 
-import { useDataContext } from '../context/DataContext';
+import { useDataLayer } from '../context/DataLayer';
 
 interface Props {
   text?: string;
@@ -10,7 +10,7 @@ interface Props {
 }
 
 const Form: FunctionalComponent<Props> = ({ text, 'data-testid': testId }) => {
-  const { translate } = useDataContext();
+  const { translate } = useDataLayer();
 
   return (
     <div className="form-wrapper center" data-testid={testId}>

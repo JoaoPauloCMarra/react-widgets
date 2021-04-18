@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const InlineSourceWebpackPlugin = require('inline-source-webpack-plugin');
 const FileManagerPlugin = require('filemanager-webpack-plugin');
@@ -120,6 +121,7 @@ module.exports = (env) => {
   let minimizer = [];
   if (!devMode) {
     minimizer = [
+      new CssMinimizerPlugin(),
       new TerserPlugin({
         extractComments: {
           condition: /^\**!|@preserve|@license|@cc_on/,
