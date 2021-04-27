@@ -16,12 +16,11 @@ declare type WidgetParams = {
   token: string;
   widget: string;
   language?: string;
+  height?: number | string;
+  width?: number | string;
 };
 
-declare type ClientSettings = {
-  token: string;
-  widget: string;
-  language?: string;
+declare type ClientSettings = WidgetParams & {
   theme?: string;
 };
 
@@ -33,3 +32,16 @@ declare type Post = {
   title: string;
   text: string;
 };
+
+declare interface DataState {
+  loading: boolean;
+
+  settings?: ClientSettings;
+
+  locales?: Locales;
+  translate: (path: string, replaceKeys?: string[], replaceWith?: { [key: string]: string }) => string;
+
+  postsLoading?: boolean;
+  posts?: Post[];
+  updatePosts: () => void;
+}

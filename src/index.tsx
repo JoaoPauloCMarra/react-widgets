@@ -1,10 +1,10 @@
 import { FunctionalComponent } from 'preact';
 import { useEffect, useRef, useState } from 'preact/hooks';
-import register from 'preact-custom-element';
 
 import './styles/index.scss';
-import { logError } from './utils/logger';
 import { DataLayerProvider } from './context/DataLayer';
+import { logError } from './utils/logger';
+import register from './utils/WebComponents';
 import WidgetRenderer from './shared/WidgetRenderer';
 import Loading from './shared/Loading';
 
@@ -34,4 +34,4 @@ const Main: FunctionalComponent<WidgetParams> = (props) => {
   );
 };
 
-register(Main, 'react-widgets', ['widget', 'token'], { shadow: false });
+register(Main, 'react-widgets', ['widget', 'token'], { shadow: true, assetServer: process.env.ASSET_SERVER || '' });

@@ -1,18 +1,18 @@
 import { FunctionalComponent } from 'preact';
 import React, { memo, useEffect } from 'preact/compat';
 
-import { useDataLayer } from '../context/DataLayer';
 import ListItem from './ListItem';
 import Loading from './Loading';
 import Error from './Error';
 
 interface Props {
+  data: DataState;
   onClose?: () => void;
   'data-testid'?: string;
 }
 
-const List: FunctionalComponent<Props> = ({ 'data-testid': testId }) => {
-  const { translate, updatePosts, postsLoading, posts = [] } = useDataLayer();
+const List: FunctionalComponent<Props> = ({ data, 'data-testid': testId }) => {
+  const { translate, updatePosts, postsLoading, posts = [] } = data;
 
   useEffect(() => {
     updatePosts();

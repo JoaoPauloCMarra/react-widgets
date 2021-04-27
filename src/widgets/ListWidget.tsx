@@ -7,10 +7,11 @@ import List from '../shared/List';
 type Route = 'list' | 'form';
 
 interface Props {
+  data: DataState;
   initialRoute?: Route;
 }
 
-const ListWidget: FunctionalComponent<Props> = ({ initialRoute = 'list' }) => {
+const ListWidget: FunctionalComponent<Props> = ({ data, initialRoute = 'list' }) => {
   const [route, setRoute] = useState(initialRoute);
   const [transition, setTransition] = useState('');
   const transitionId = useRef<any>();
@@ -24,10 +25,10 @@ const ListWidget: FunctionalComponent<Props> = ({ initialRoute = 'list' }) => {
 
   const routes: Routes = useMemo(() => {
     return {
-      list: <List onClose={() => changeRoute('form')} />,
+      list: <List data={data} onClose={() => changeRoute('form')} />,
       form: <Form onClose={() => changeRoute('list')} />,
     };
-  }, []);
+  }, [data]);
 
   return (
     <div className="list-widget">

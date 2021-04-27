@@ -8,25 +8,25 @@ import EmptyWidget from '../widgets/EmptyWidget';
 import ListWidget from '../widgets/ListWidget';
 import FormWidget from '../widgets/FormWidget';
 
-const widgetList: { [key: string]: JSX.Element } = {
-  default: <EmptyWidget />,
-  list: <ListWidget />,
-  form: <FormWidget />,
-};
-
 const WidgetRenderer: FunctionalComponent = () => {
-  const { loading, settings } = useDataLayer();
-  const { widget, token } = settings || {};
+  const dataLayer = useDataLayer();
+  const { widget, token } = dataLayer.settings || {};
+
   const child = useMemo(() => {
+    const widgetList: { [key: string]: JSX.Element } = {
+      default: <EmptyWidget />,
+      list: <ListWidget data={dataLayer} />,
+      form: <FormWidget />,
+    };
     try {
       if (!widget) return widgetList.default;
       return widgetList[widget] || widgetList.default;
     } catch (error) {
       return widgetList.default;
     }
-  }, [widget]);
+  }, [widget, dataLayer]);
 
-  if (loading) {
+  if (dataLayer.loading) {
     return <Loading />;
   }
   if (!widget) {

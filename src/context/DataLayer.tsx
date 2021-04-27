@@ -3,24 +3,12 @@ import { useContext, useEffect, useReducer, useCallback } from 'preact/hooks';
 
 import { apiRoutes, defaultSettings } from '../Constants';
 import useApiData from '../hooks/useApiData';
+import { updateWidgetStyle } from '../utils/data';
 import { logError } from '../utils/logger';
 
 interface ProviderProps {
   params: WidgetParams;
   widgetEl: null | HTMLElement;
-}
-
-interface DataState {
-  loading: boolean;
-
-  settings?: ClientSettings;
-
-  locales?: Locales;
-  translate: (path: string, replaceKeys?: string[], replaceWith?: { [key: string]: string }) => string;
-
-  postsLoading?: boolean;
-  posts?: Post[];
-  updatePosts: () => void;
 }
 
 const initialState: DataState = {
@@ -65,10 +53,11 @@ export const DataLayerProvider: FunctionalComponent<ProviderProps> = ({ children
   const updateSettings = useCallback(
     async (params: WidgetParams) => {
       try {
-        const { token } = params || {};
+        const { token, height, width } = params || {};
         if (!token) return;
         const clientData = await fetchData({ route: apiRoutes.token, filter: { key: 'token', value: token } });
         const { theme } = clientData;
+        updateWidgetStyle(widgetEl, theme, height, width);
         if (widgetEl && theme && !widgetEl?.className?.includes(theme)) {
           const [firstClassName] = widgetEl.className.split(' ');
           widgetEl.className = `${firstClassName} ${theme}`;
