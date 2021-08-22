@@ -10,7 +10,7 @@ import Loading from './shared/Loading';
 
 const Main: FunctionalComponent<WidgetParams> = (props) => {
   const [el, setEl] = useState(null);
-  const ref = useRef(null);
+  const ref = useRef<any>(null);
 
   useEffect(() => {
     setEl(ref.current);
